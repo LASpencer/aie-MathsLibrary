@@ -3,6 +3,36 @@ class Vector4
 {
 public:
 	Vector4();
+	Vector4(float x, float y, float z, float w);
 	~Vector4();
+
+	// return reference to vector component
+	float& operator[](size_t n);
+
+	// cast vector as array of floats
+	explicit operator float*();
+
+	// Dot multiplication of two vectors
+	float dot(const Vector4& b);
+
+	// Cross multiplication of two vectors
+	Vector4 cross(const Vector4& b);
+
+	// Returns magnitude of vector
+	float magnitude();
+
+	// Converts vector to a unit vector with same direction
+	void normalise();
+
+protected:
+	// Components of vector
+	float m_x;
+	float m_y;
+	float m_z;
+	float m_w;
 };
 
+Vector4 operator+(const Vector4& a, const Vector4& b);
+Vector4 operator-(const Vector4& a, const Vector4& b);
+Vector4 operator*(const Vector4& v, float f);
+Vector4 operator*(float f, const Vector4& v);
