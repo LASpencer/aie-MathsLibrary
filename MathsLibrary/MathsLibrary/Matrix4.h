@@ -12,6 +12,7 @@ public:
 
 	// Return reference to vector axis
 	Vector4& operator[](size_t n);
+	const Vector4& operator[](size_t n) const;
 
 	// Cast matrix as array of floats
 	explicit operator float*();

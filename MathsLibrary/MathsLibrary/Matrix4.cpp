@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Matrix4.h"
 
 
@@ -18,9 +19,16 @@ Matrix4::~Matrix4()
 
 Vector4 & Matrix4::operator[](size_t n)
 {
-	// TODO Matrix4[] operator
-	return m_xAxis;
+	// TODO throw exception if n > 3
+	return m_axis[n];
 }
+
+const Vector4 & Matrix4::operator[](size_t n) const
+{
+	// TODO throw exception if n > 3
+	return m_axis[n];
+}
+
 
 Matrix4::operator float*()
 {
@@ -30,27 +38,55 @@ Matrix4::operator float*()
 
 void Matrix4::setRotateX(float angle)
 {
-	// TODO Matrix4 RotateX
+	// Set x axis as unit vector (1,0,0,0)
+	m_xAxis = Vector4(1, 0, 0, 0);
+	// Set t axis as no translation
+	m_tAxis = Vector4(0, 0, 0, 1);
+	// Set y and z axes as unit vectors rotated around x axis by given angle
+	m_yAxis = Vector4(0, cosf(angle), sinf(angle),0);
+	m_zAxis = Vector4(0, -sinf(angle), cosf(angle),0);
 }
 
 void Matrix4::setRotateY(float angle)
 {
-	//TODO Matrix4 RotateY
+	// Set y axis as unit vector (0,1,0,0)
+	m_yAxis = Vector4(0, 1, 0,0);
+	// Set t axis as no translation
+	m_tAxis = Vector4(0, 0, 0, 1);
+	// Set x and z axes as unit vectors rotated around y axis by given angle
+	m_xAxis = Vector4(cosf(angle), 0, -sinf(angle),0);
+	m_zAxis = Vector4(sinf(angle), 0, cosf(angle),0);
 }
 
 void Matrix4::setRotateZ(float angle)
 {
-	//TODO Matrix4 RotateZ
+	// Set z axis as unit vector (0,0,1)
+	m_zAxis = Vector4(0, 0, 1, 0);
+	// Set t axis as no translation
+	m_tAxis = Vector4(0, 0, 0, 1);
+	// Set x and y axes as unit vectors rotated around z axis by given angle
+	m_xAxis = Vector4(cosf(angle), sinf(angle), 0, 0);
+	m_yAxis = Vector4(-sinf(angle), cosf(angle), 0, 0);
 }
 
 Vector4 operator*(const Matrix4 & a, const Vector4 & v)
 {
 	// TODO 3D Homologous vector transform
-	return Vector4();
+	// TODO refactor as for loop
+	Vector4 transformed;
+	transformed[0] = a[0][0] * v[0] + a[1][0] * v[1] + a[2][0] * v[2] + a[3][0] * v[3];
+	transformed[1] = a[0][1] * v[0] + a[1][1] * v[1] + a[2][1] * v[2] + a[3][1] * v[3];
+	transformed[2] = a[0][2] * v[0] + a[1][2] * v[1] + a[2][2] * v[2] + a[3][2] * v[3];
+	transformed[3] = a[0][3] * v[0] + a[1][3] * v[1] + a[2][3] * v[2] + a[3][3] * v[3];
+	return transformed;
 }
 
 Matrix4 operator*(const Matrix4 & a, const Matrix4 & b)
 {
-	//TODO 3D homologous matrix concatenation
-	return Matrix4();
+	//TODO comment 3D homologous matrix concatenation
+	Matrix4 product;
+	for (size_t i = 0; i < 4; ++i) {
+		product[i] = a * b[i];
+	}
+	return product;
 }

@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Matrix3.h"
 
 
@@ -16,8 +17,14 @@ Matrix3::~Matrix3()
 
 Vector3& Matrix3::operator[](size_t n)
 {
-	// TODO Matrix3[] operator
-	return m_xAxis;
+	// TODO throw exception if n > 2
+	return m_axis[n];
+}
+
+const Vector3 & Matrix3::operator[](size_t n) const
+{
+	// TODO throw exception if n > 2
+	return m_axis[n];
 }
 
 Matrix3::operator float*()
@@ -28,27 +35,48 @@ Matrix3::operator float*()
 
 void Matrix3::setRotateX(float angle)
 {
-	// TODO Matrix3 rotateX
+	// Set x axis as unit vector (1,0,0)
+	m_xAxis = Vector3(1, 0, 0);
+	// Set y and z axes as unit vectors rotated around x axis by given angle
+	m_yAxis = Vector3(0, cosf(angle), sinf(angle));
+	m_zAxis = Vector3(0, -sinf(angle), cosf(angle));
 }
 
 void Matrix3::setRotateY(float angle)
 {
-	// TODO matrix3 rotateY
+	// Set y axis as unit vector (0,1,0)
+	m_yAxis = Vector3(0, 1, 0);
+	// Set x and z axes as unit vectors rotated around y axis by given angle
+	m_xAxis = Vector3(cosf(angle), 0, -sinf(angle));
+	m_zAxis = Vector3(sinf(angle), 0, cosf(angle));
 }
 
 void Matrix3::setRotateZ(float angle)
 {
-	//TODO matrix3 rotateZ
+	// Set z axis as unit vector (0,0,1)
+	m_zAxis = Vector3(0,0,1);
+	// Set x and y axes as unit vectors rotated around z axis by given angle
+	m_xAxis = Vector3(cosf(angle), sinf(angle),0);
+	m_yAxis = Vector3(-sinf(angle), cosf(angle),0);
 }
 
 Vector3 operator*(const Matrix3 & a, const Vector3 & v)
 {
-	// TODO 3D Vector Transformation
-	return Vector3();
+	// TODO comment 3D Vector Transformation
+	// TODO refactor as for loop
+	Vector3 transformed;
+	transformed[0] = a[0][0] * v[0] + a[1][0] * v[1] + a[2][0] * v[2];
+	transformed[1] = a[0][1] * v[0] + a[1][1] * v[1] + a[2][1] * v[2];
+	transformed[2] = a[0][2] * v[0] + a[1][2] * v[1] + a[2][2] * v[2];
+	return transformed;
 }
 
 Matrix3 operator*(const Matrix3 & a, const Matrix3 & b)
 {
-	// TODO 3D Matrix concatenation
-	return Matrix3();
+	//TODO comment 3D Matrix concatenation
+	Matrix3 product;
+	for (size_t i = 0; i < 3; ++i) {
+		product[i] = a * b[i];
+	}
+	return product;
 }
