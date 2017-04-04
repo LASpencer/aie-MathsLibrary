@@ -54,7 +54,7 @@ void Vector2::normalise()
 	// Divide all components by magnitude
 	
 	// Calculate 1/magnitude
-	float magReciprocal = 1.0/magnitude();
+	float magReciprocal = 1.0f/magnitude();
 	// Multiply each component by 1/magnitude
 	m_x *= magReciprocal;
 	m_y *= magReciprocal;
