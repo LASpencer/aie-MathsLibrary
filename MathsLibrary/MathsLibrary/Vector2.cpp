@@ -1,5 +1,5 @@
 #include "Vector2.h"
-
+//#include <exception>
 
 
 Vector2::Vector2(): m_x(0), m_y(0)
@@ -17,9 +17,14 @@ Vector2::~Vector2()
 
 float & Vector2::operator[](size_t n)
 {
-	// TODO Vector2[]
-	float b = 0.0f;
-	return b;
+	//TODO throw exception if n>1
+	return m_component[n];
+}
+
+const float & Vector2::operator[](size_t n) const
+{
+	//TODO throw exception if n>1
+	return m_component[n];
 }
 
 Vector2::operator float*()
@@ -47,24 +52,24 @@ void Vector2::normalise()
 
 Vector2 operator+(const Vector2 & a, const Vector2 & b)
 {
-	// TODO Vector2 addition
-	return Vector2();
+	// Add corresponding vector components to get components of resultant vector
+	return Vector2(a[0] + b[0], a[1] + b[1]);
 }
 
 Vector2 operator-(const Vector2 & a, const Vector2 & b)
 {
-	//TODO vector2 subtraction
-	return Vector2();
+	// Subtract corresponding vector components to get components of resultant vector
+	return Vector2(a[0] - b[0], a[1] - b[1]);
 }
 
 Vector2 operator*(const Vector2 & v, float f)
 {
-	//TODO scale Vector2
-	return Vector2();
+	// Multiply all components by f to get components of resultant vector
+	return Vector2(v[0]*f,v[1]*f);
 }
 
 Vector2 operator*(float f, const Vector2 & v)
 {
-	//TODO Vector2 scale
-	return Vector2();
+	// Multiply all components by f to get components of resultant vector
+	return Vector2(v[0] * f, v[1] * f);
 }

@@ -16,6 +16,8 @@ public:
 	
 	// return reference to vector component
 	float& operator[](size_t n);
+	const float& operator[](size_t n) const;
+
 	// cast vector as array of floats
 	explicit operator float*();
 

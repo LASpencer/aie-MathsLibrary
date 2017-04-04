@@ -17,9 +17,14 @@ Vector4::~Vector4()
 
 float & Vector4::operator[](size_t n)
 {
-	// TODO Vector4[] operator
-	float b = 0.0f;
-	return b;
+	// TODO throw exception if n>3
+	return m_component[n];
+}
+
+const float & Vector4::operator[](size_t n) const
+{
+	// TODO throw exception if n>3
+	return m_component[n];
 }
 
 Vector4::operator float*()
@@ -54,24 +59,24 @@ void Vector4::normalise()
 
 Vector4 operator+(const Vector4 & a, const Vector4 & b)
 {
-	//TODO vector4 addition
-	return Vector4();
+	// Add corresponding vector components to get components of resultant vector
+	return Vector4(a[0]+b[0],a[1]+b[1],a[2]+b[2],a[3]+b[3]);
 }
 
 Vector4 operator-(const Vector4 & a, const Vector4 & b)
 {
-	//TODO vector4 subtraction
-	return Vector4();
+	// Subtract corresponding vector components to get components of resultant vector
+	return Vector4(a[0] - b[0], a[1] - b[1], a[2] - b[2], a[3] - b[3]);
 }
 
 Vector4 operator*(const Vector4 & v, float f)
 {
-	// TODO vector4 scale
-	return Vector4();
+	// Multiply all components by f to get components of resultant vector
+	return Vector4(v[0] * f, v[1] * f, v[2] * f, v[3]*f);
 }
 
 Vector4 operator*(float f, const Vector4 & v)
 {
-	// TODO vector4 scale
-	return Vector4();
+	// Multiply all components by f to get components of resultant vector
+	return Vector4(v[0] * f, v[1] * f, v[2] * f, v[3] * f);
 }
