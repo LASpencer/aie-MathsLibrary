@@ -30,7 +30,6 @@ public:
 	// Converts vector to a unit vector with same direction
 	void normalise();
 
-
 protected:
 	// Components of vector
 	union {
@@ -48,3 +47,22 @@ Vector2 operator+(const Vector2& a, const Vector2& b);
 Vector2 operator-(const Vector2& a, const Vector2& b);
 Vector2 operator*(const Vector2& v, float f);
 Vector2 operator*(float f, const Vector2& v);
+
+// Compare magnitudes of vectors
+Vector2 operator>(const Vector2& a, const Vector2& b);
+Vector2 operator<(const Vector2& a, const Vector2& b);
+Vector2 operator>=(const Vector2& a, const Vector2& b);
+Vector2 operator<=(const Vector2& a, const Vector2& b);
+
+// Compare vector magnitude to given float
+Vector2 operator>(const Vector2& v, float f);
+Vector2 operator>(float f, const Vector2& v);
+Vector2 operator<(const Vector2& v, float f);
+Vector2 operator<(float f, const Vector2& v);
+Vector2 operator>=(const Vector2& v, float f);
+Vector2 operator>=(float f, const Vector2& v);
+Vector2 operator<=(const Vector2& v, float f);
+Vector2 operator<=(float f, const Vector2& v);
+
+// Vectors are equal if all components are equal
+Vector2 operator==(const Vector2& a, const Vector2& b);

@@ -111,6 +111,18 @@ bool compare( Matrix4& A,  Matrix4& B, float tolerance = DEFAULT_TOLERANCE) {
 	return true;
 }
 
+// additional compare functions
+bool compare(int a, int b) {
+	return a == b;
+}
+
+bool compare(bool a, bool b) {
+	return a == b;
+}
+
+
+// end additional compare functions
+
 template <typename T>
 bool TestFunc(const char* msg, T& a, T& b) {
 	if (compare(a, b) == false) {
@@ -327,5 +339,10 @@ bool runUnitTests() {
 	TEST("Vector4 matrix translation C", v4b, Vector4(13.5f, -48.23f, -54, 0));
 	TEST("Vector4 matrix translation D", v4c, Vector4(31.0490131378f, 39.2981109619f, -54, 0));
 	
+	// FOLLOWING TESTS WRITTEN FOR ADDITIONAL FEATURES
+	// NOT PART OF REQUIREMENTS
+
+	std::cout<<"Basic requirements passed.\n"
+
 	return true;
 }
