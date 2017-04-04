@@ -22,8 +22,8 @@ Vector3& Matrix3::operator[](size_t n)
 
 Matrix3::operator float*()
 {
-	//TODO cast Matrix3 as float*
-	return nullptr;
+	//returns pointer to first element in union
+	return m_element[0];
 }
 
 void Matrix3::setRotateX(float angle)

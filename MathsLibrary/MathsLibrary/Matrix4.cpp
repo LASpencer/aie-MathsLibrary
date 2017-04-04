@@ -24,8 +24,8 @@ Vector4 & Matrix4::operator[](size_t n)
 
 Matrix4::operator float*()
 {
-	// TODO cast MAtrix4 as float*
-	return nullptr;
+	// return pointer to first element in union
+	return m_element[0];
 }
 
 void Matrix4::setRotateX(float angle)

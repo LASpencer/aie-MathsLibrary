@@ -24,8 +24,8 @@ float & Vector2::operator[](size_t n)
 
 Vector2::operator float*()
 {
-	// TODO cast Vector2 to float*
-	return nullptr;
+	// Return array of components
+	return m_component;
 }
 
 float Vector2::dot(const Vector2& b)

@@ -1,4 +1,11 @@
 #pragma once
+
+//#ifdef MATHSLIBRARY_EXPORTS
+//#define MATHSLIBRARY_API __declspec(dllexport)
+//#else
+//#define MATHSLIBRARY_API __declspec(dllimport)
+//#endif
+
 class Vector3
 {
 public:
@@ -27,9 +34,14 @@ public:
 
 protected:
 	// Components of vector
-	float m_x;
-	float m_y;
-	float m_z;
+	union {
+		struct {
+			float m_x;
+			float m_y;
+			float m_z;
+		};
+		float m_component[3];
+	};
 };
 
 // Arithmetic operators

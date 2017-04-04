@@ -22,8 +22,8 @@ Vector2 & Matrix2::operator[](size_t n)
 
 Matrix2::operator float*()
 {
-	// TODO cast Matrix2 as float*
-	return nullptr;
+	// Returns pointer to first element in union
+	return m_element[0];
 }
 
 void Matrix2::setRotate(float angle)
