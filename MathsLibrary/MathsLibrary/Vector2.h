@@ -22,10 +22,10 @@ public:
 	explicit operator float*();
 
 	// Dot multiplication of two vectors
-	float dot(const Vector2& b);
+	float dot(const Vector2& b) const;
 
 	// Returns magnitude of vector
-	float magnitude();
+	float magnitude() const;
 
 	// Converts vector to a unit vector with same direction
 	void normalise();

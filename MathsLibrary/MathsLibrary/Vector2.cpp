@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Vector2.h"
 //#include <exception>
 
@@ -33,21 +34,30 @@ Vector2::operator float*()
 	return m_component;
 }
 
-float Vector2::dot(const Vector2& b)
+float Vector2::dot(const Vector2& b) const
 {
-	// TODO Vector2 dot multiplication
-	return 0.0f;
+	// Multiply corresponding vector components, then add products together
+	float product = m_component[0] * b[0] + m_component[1] * b[1];
+	return product;
 }
 
-float Vector2::magnitude()
+float Vector2::magnitude() const
 {
-	// TODO vector2 magnitude
-	return 0.0f;
+	// Calculate magnitude through pythagoras equation
+	// Take square root of sum of components squared
+	float magnitude = sqrtf((m_x * m_x) + (m_y * m_y));
+	return magnitude;
 }
 
 void Vector2::normalise()
 {
-	// TODO normalize Vector2
+	// Divide all components by magnitude
+	
+	// Calculate 1/magnitude
+	float magReciprocal = 1.0/magnitude();
+	// Multiply each component by 1/magnitude
+	m_x *= magReciprocal;
+	m_y *= magReciprocal;
 }
 
 Vector2 operator+(const Vector2 & a, const Vector2 & b)

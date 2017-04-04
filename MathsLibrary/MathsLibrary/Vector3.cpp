@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Vector3.h"
 
 
@@ -33,27 +34,40 @@ Vector3::operator float*()
 	return m_component;
 }
 
-float Vector3::dot(const Vector3 & b)
+float Vector3::dot(const Vector3 & b) const
 {
-	// TODO vector3 dot product
-	return 0.0f;
+	// Multiply corresponding vector components, then add products together
+	float product = m_component[0] * b[0] + m_component[1] * b[1] + m_component[2] * b[2];
+	return product;
 }
 
-Vector3 Vector3::cross(const Vector3 & b)
+Vector3 Vector3::cross(const Vector3 & b) const
 {
-	// TODO Vector3 cross product
-	return Vector3();
+	Vector3 product;
+	product[0] = m_component[1] * b[2] - m_component[2] * b[1];
+	product[1] = m_component[2] * b[0] - m_component[0]*b[2];
+	product[2] = m_component[0] * b[1] - m_component[1] * b[0];
+	return product;
 }
 
-float Vector3::magnitude()
+float Vector3::magnitude() const
 {
-	// TODO vector3 magnitude
-	return 0.0f;
+	// Calculate magnitude through pythagoras equation
+	// Take square root of sum of components squared
+	float magnitude = sqrtf((m_x * m_x) + (m_y * m_y) + (m_z * m_z));
+	return magnitude;
 }
 
 void Vector3::normalise()
 {
-	// TODO vector3 normalise
+	// divide all components by magnitude
+	
+	// Calculate 1/magnitude
+	float magReciprocal = 1.0 / magnitude();
+	// Multiply each component by 1/magnitude
+	m_x *= magReciprocal;
+	m_y *= magReciprocal;
+	m_z *= magReciprocal;
 }
 
 Vector3 operator+(const Vector3 & a, const Vector3 & b)

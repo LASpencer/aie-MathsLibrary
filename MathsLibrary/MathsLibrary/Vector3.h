@@ -21,13 +21,13 @@ public:
 	explicit operator float*();
 
 	// Dot multiplication of two vectors
-	float dot(const Vector3& b);
+	float dot(const Vector3& b) const;
 
 	// Cross multiplication of two vectors
-	Vector3 cross(const Vector3& b);
+	Vector3 cross(const Vector3& b) const;
 
 	// Returns magnitude of vector
-	float magnitude();
+	float magnitude() const;
 
 	// Converts vector to a unit vector with same direction
 	void normalise();

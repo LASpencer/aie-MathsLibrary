@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Vector4.h"
 
 
@@ -33,28 +34,43 @@ Vector4::operator float*()
 	return m_component;
 }
 
-float Vector4::dot(const Vector4 & b)
+float Vector4::dot(const Vector4 & b) const
 {
-	// TODO Vector4 dot product
-	return 0.0f;
+	// Multiply corresponding vector components, then add products together
+	float product = m_component[0] * b[0] + m_component[1] * b[1] + m_component[2] * b[2] + m_component[3] * b[3];
+	return product;
 }
 
-Vector4 Vector4::cross(const Vector4 & b)
+Vector4 Vector4::cross(const Vector4 & b) const
 {
-	// TODO vector4 cross product
-	// Treat as vector3 cross product, then figure out what w should be? Probably 0
-	return Vector4();
+	// Treat as Vector3 cross product, then set w = 0
+	Vector4 product;
+	product[0] = m_component[1] * b[2] - m_component[2] * b[1];
+	product[1] = m_component[2] * b[0] - m_component[0] * b[2];
+	product[2] = m_component[0] * b[1] - m_component[1] * b[0];
+	product[3] = 0;
+	return product;
 }
 
-float Vector4::magnitude()
+float Vector4::magnitude() const
 {
-	// TODO Vector4 magnitude
-	return 0.0f;
+	// Calculate magnitude through pythagoras equation
+	// Take square root of sum of components squared
+	float magnitude = sqrtf((m_x * m_x) + (m_y * m_y) + (m_z * m_z) + (m_w * m_w));
+	return magnitude;
 }
 
 void Vector4::normalise()
 {
-	// TODO normalise vector4
+	// divide all components by magnitude
+
+	// Calculate 1/magnitude
+	float magReciprocal = 1.0 / magnitude();
+	// Multiply each component by 1/magnitude
+	m_x *= magReciprocal;
+	m_y *= magReciprocal;
+	m_z *= magReciprocal;
+	m_w *= magReciprocal;
 }
 
 Vector4 operator+(const Vector4 & a, const Vector4 & b)
