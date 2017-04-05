@@ -342,7 +342,55 @@ bool runUnitTests() {
 	// FOLLOWING TESTS WRITTEN FOR ADDITIONAL FEATURES
 	// NOT PART OF REQUIREMENTS
 
-	std::cout<<"Basic requirements passed.\n"
+	std::cout << "Basic requirements passed.\n";
+
+	// Vector2 magnitude squared
+	v2a = Vector2(3.0f, 4.0f);
+	mag2 = v2a.magnitudeSquared();
+	TEST("Vector2 magnitude squared", mag2, 25.0f);
+
+	// Vector2 vector to vector comparison
+	v2a = Vector2(3.0f, 4.0f);
+	v2b = Vector2(-2.0f, 5.0f);
+	v2c = Vector2(4.0f, -4.0f);
+
+	bool b1 = (v2a < v2b);
+	bool b2 = (v2b < v2a);
+	bool b3 = (v2b > v2c);
+	bool b4 = (v2c > v2a);
+
+	bool b_true = true;
+	bool b_false = false;
+
+	TEST("Vector2 comparison A", b1, b_true);
+	TEST("Vector2 comparison B", b2, b_false);
+	TEST("Vector2 comparison C", b3, b_false);
+	TEST("Vector2 comparison D", b4, b_true);
+
+	// Vector2 vector equality
+	v2b = Vector2(3.0f, -4.0f);
+	v2c = Vector2(3.0f, 4.0f);
+
+	b1 = v2a == v2b;
+	b2 = v2a == v2c;
+
+	TEST("Vector2 equality A", b1, b_false);
+	TEST("Vector2 equality B", b2, b_true);
+
+	// Vector2 float comparison
+	b1 = v2a < 5.0f;	//false
+	b2 = v2a <= 5.0f;	//true
+	b3 = v2a < 7.0f;	//true
+	b4 = v2a > 3.0f;	//true
+	bool b5 = 7.0f > v2a; //true
+	bool b6 = 3.0f > v2a; //false
+
+	TEST("Vector2 float comparison A", b1, b_false);
+	TEST("Vector2 float comparison B", b2, b_true);
+	TEST("Vector2 float comparison C", b3, b_true);
+	TEST("Vector2 float comparison D", b4, b_true);
+	TEST("Vector2 float comparison E", b5, b_true);
+	TEST("Vector2 float comparison F", b6, b_false);
 
 	return true;
 }
