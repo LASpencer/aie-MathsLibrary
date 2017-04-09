@@ -10,8 +10,12 @@
 
 
 // TYPEDEFS IF NEEDED
-// typedef glm::vec2 Vector2; etc
-// typedef glm::mat4 Matrix4; etc
+ typedef lasmath::Vector2 Vector2; 
+ typedef lasmath::Vector3 Vector3;
+ typedef lasmath::Vector4 Vector4;
+ typedef lasmath::Matrix2 Matrix2;
+ typedef lasmath::Matrix3 Matrix3;
+ typedef lasmath::Matrix4 Matrix4;
 
 // IF YOU GAVE YOUR CLASSES STREAM OPERATORS YOU CAN UNCOMMENT THIS
 //#define NO_DEFAULT_STREAM_OPERATOR
