@@ -377,6 +377,25 @@ bool runUnitTests() {
 	TEST("Vector2 comparison C", b3, b_false);
 	TEST("Vector2 comparison D", b4, b_true);
 
+	// Vector3 vector to vector comparison
+	v3a = Vector3(3.0f, 6.0f, 4.0f);
+	v3b = Vector3(2.0f, 4.0f, -7.0f);
+	v3c = Vector3(-8.0f, -2.0f, 1.0f);
+
+	b1 = (v3a < v3b);
+	b2 = (v3b < v3a);
+	b3 = (v3b > v3c);
+	b4 = (v3b >= v3c);
+	bool b5 = (v3c > v3a);
+
+	TEST("Vector3 comparison A", b1, b_true);
+	TEST("Vector3 comparison B", b2, b_false);
+	TEST("Vector3 comparison C", b3, b_false);
+	TEST("Vector3 comparison D", b4, b_true);
+	TEST("Vector3 comparison E", b5, b_true);
+
+	// Vector4 vector to vector comparison
+
 	// Vector2 vector equality
 	v2b = Vector2(3.0f, -4.0f);
 	v2c = Vector2(3.0f, 4.0f);
@@ -392,7 +411,7 @@ bool runUnitTests() {
 	b2 = v2a <= 5.0f;	//true
 	b3 = v2a < 7.0f;	//true
 	b4 = v2a > 3.0f;	//true
-	bool b5 = 7.0f > v2a; //true
+	b5 = 7.0f > v2a; //true
 	bool b6 = 3.0f > v2a; //false
 
 	TEST("Vector2 float comparison A", b1, b_false);
