@@ -28,6 +28,7 @@ namespace lasmath {
 		// Set matrix to be a transformation matrix rotating by angle
 		void setRotate(float angle);
 
+
 	protected:
 		union {
 			struct {
