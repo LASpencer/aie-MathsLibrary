@@ -198,4 +198,8 @@ namespace lasmath {
 			return false;
 		}
 	}
+	bool operator!=(const Vector3 & a, const Vector3 & b)
+	{
+		return !(a == b);
+	}
 }

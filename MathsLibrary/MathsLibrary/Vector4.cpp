@@ -201,4 +201,8 @@ namespace lasmath {
 			return false;
 		}
 	}
+	bool operator!=(const Vector4 & a, const Vector4 & b)
+	{
+		return !(a == b);
+	}
 }

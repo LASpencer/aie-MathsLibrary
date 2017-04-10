@@ -70,4 +70,5 @@ namespace lasmath {
 
 	// Vectors are equal if all components are equal
 	bool operator==(const Vector2& a, const Vector2& b);
+	bool operator!=(const Vector2& a, const Vector2& b);
 }

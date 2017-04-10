@@ -395,6 +395,22 @@ bool runUnitTests() {
 	TEST("Vector3 comparison E", b5, b_true);
 
 	// Vector4 vector to vector comparison
+	
+	v4a = Vector4(4.0f, 3.0f, 5.0f, 3.0f);
+	v4b = Vector4(-3.0f, 6.0f, 4.0f, 0.0f);
+	v4c = Vector4(2.0f, 2.0f, 2.0f, -7.0f);
+
+	b1 = (v4a < v4b);
+	b2 = (v4b < v4a);
+	b3 = (v4b > v4c);
+	b4 = (v4b >= v4c);
+	b5 = (v4c > v4a);
+
+	TEST("Vector4 comparison A", b1, b_true);
+	TEST("Vector4 comparison B", b2, b_false);
+	TEST("Vector4 comparison C", b3, b_false);
+	TEST("Vector4 comparison D", b4, b_true);
+	TEST("Vector4 comparison E", b5, b_true);
 
 	// Vector2 vector equality
 	v2b = Vector2(3.0f, -4.0f);
@@ -402,9 +418,35 @@ bool runUnitTests() {
 
 	b1 = v2a == v2b;
 	b2 = v2a == v2c;
+	b3 = v2a != v2b;
 
 	TEST("Vector2 equality A", b1, b_false);
 	TEST("Vector2 equality B", b2, b_true);
+	TEST("Vector3 equality C", b3, b_true);
+
+	// Vector3 vector equality
+	v3b = Vector3(3.0f, -6.0f, 4.0f);
+	v3c = Vector3(3.0f, -6.0f, 4.0f);
+
+	b1 = v3a == v3b;
+	b2 = v3b == v3c;
+	b3 = v3a != v3b;
+
+	TEST("Vector3 equality A", b1, b_false);
+	TEST("Vector3 equality B", b2, b_true);
+	TEST("Vector3 equality C", b3, b_true);
+
+	// Vector4 vector equality
+	v4b = Vector4(-4.0f, 3.0f, 5.0f, 3.0f);
+	v4c = Vector4(-4.0f, 3.0f, 5.0f, 3.0f);
+
+	b1 = v4a == v4b;
+	b2 = v4b == v4c;
+	b3 = v4a != v4b;
+
+	TEST("Vector4 equality A", b1, b_false);
+	TEST("Vector4 equality B", b2, b_true);
+	TEST("Vector4 equality C", b3, b_true);
 
 	// Vector2 float comparison
 	b1 = v2a < 5.0f;	//false
@@ -420,6 +462,38 @@ bool runUnitTests() {
 	TEST("Vector2 float comparison D", b4, b_true);
 	TEST("Vector2 float comparison E", b5, b_true);
 	TEST("Vector2 float comparison F", b6, b_false);
+
+	// Vector3 float comparison
+
+	b1 = v3a < 5.0f;	//false
+	b2 = v3a <= 8.0f;	//true
+	b3 = v3a < 8.0f;	//true
+	b4 = v3a > 3.0f;	//true
+	b5 = 8.0f > v3a; //true
+	b6 = 3.0f > v3a; //false
+
+	TEST("Vector3 float comparison A", b1, b_false);
+	TEST("Vector3 float comparison B", b2, b_true);
+	TEST("Vector3 float comparison C", b3, b_true);
+	TEST("Vector3 float comparison D", b4, b_true);
+	TEST("Vector3 float comparison E", b5, b_true);
+	TEST("Vector3 float comparison F", b6, b_false);
+
+	// Vector4 float comparison
+
+	b1 = v4a < 5.0f;	//false
+	b2 = v4a <= 8.0f;	//true
+	b3 = v4a < 8.0f;	//true
+	b4 = v4a > 3.0f;	//true
+	b5 = 8.0f > v4a; //true
+	b6 = 3.0f > v4a; //false
+
+	TEST("Vector4 float comparison A", b1, b_false);
+	TEST("Vector4 float comparison B", b2, b_true);
+	TEST("Vector4 float comparison C", b3, b_true);
+	TEST("Vector4 float comparison D", b4, b_true);
+	TEST("Vector4 float comparison E", b5, b_true);
+	TEST("Vector4 float comparison F", b6, b_false);
 
 	return true;
 }
