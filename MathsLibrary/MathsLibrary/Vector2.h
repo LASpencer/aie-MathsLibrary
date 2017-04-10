@@ -52,22 +52,7 @@ namespace lasmath {
 	Vector2 operator*(const Vector2& v, float f);
 	Vector2 operator*(float f, const Vector2& v);
 
-	// Compare magnitudes of vectors
-	bool operator>(const Vector2& a, const Vector2& b);
-	bool operator<(const Vector2& a, const Vector2& b);
-	bool operator>=(const Vector2& a, const Vector2& b);
-	bool operator<=(const Vector2& a, const Vector2& b);
-
-	// Compare vector magnitude to given float
-	bool operator>(const Vector2& v, float f);
-	bool operator>(float f, const Vector2& v);
-	bool operator<(const Vector2& v, float f);
-	bool operator<(float f, const Vector2& v);
-	bool operator>=(const Vector2& v, float f);
-	bool operator>=(float f, const Vector2& v);
-	bool operator<=(const Vector2& v, float f);
-	bool operator<=(float f, const Vector2& v);
-
 	// Vectors are equal if all components are equal
 	bool operator==(const Vector2& a, const Vector2& b);
+	bool operator!=(const Vector2& a, const Vector2& b);
 }

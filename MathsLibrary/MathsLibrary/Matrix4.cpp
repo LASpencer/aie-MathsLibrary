@@ -22,7 +22,11 @@ namespace lasmath {
 
 	Matrix4 Matrix4::operator=(const Matrix4 & rhs)
 	{
-		return Matrix4(rhs);
+		m_xAxis = rhs.m_xAxis;
+		m_yAxis = rhs.m_yAxis;
+		m_zAxis = rhs.m_zAxis;
+		m_tAxis = rhs.m_tAxis;
+		return *this;
 	}
 
 

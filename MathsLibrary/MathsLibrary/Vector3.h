@@ -56,22 +56,7 @@ namespace lasmath {
 	Vector3 operator*(const Vector3& v, float f);
 	Vector3 operator*(float f, const Vector3& v);
 
-	// Compare magnitudes of vectors
-	bool operator>(const Vector3& a, const Vector3& b);
-	bool operator<(const Vector3& a, const Vector3& b);
-	bool operator>=(const Vector3& a, const Vector3& b);
-	bool operator<=(const Vector3& a, const Vector3& b);
-
-	// Compare vector magnitude to given float
-	bool operator>(const Vector3& v, float f);
-	bool operator>(float f, const Vector3& v);
-	bool operator<(const Vector3& v, float f);
-	bool operator<(float f, const Vector3& v);
-	bool operator>=(const Vector3& v, float f);
-	bool operator>=(float f, const Vector3& v);
-	bool operator<=(const Vector3& v, float f);
-	bool operator<=(float f, const Vector3& v);
-
 	// Vectors are equal if all components are equal
 	bool operator==(const Vector3& a, const Vector3& b);
+	bool operator!=(const Vector3& a, const Vector3& b);
 }

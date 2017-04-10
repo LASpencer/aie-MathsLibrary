@@ -15,4 +15,17 @@ namespace lasmath {
 
 	// Compare magnitudes of vectors
 	bool operator>(const Vector& a, const Vector& b);
+	bool operator<(const Vector& a, const Vector& b);
+	bool operator>=(const Vector& a, const Vector& b);
+	bool operator<=(const Vector& a, const Vector& b);
+
+	// Compare vector magnitude to given float
+	bool operator>(const Vector& v, float f);
+	bool operator>(float f, const Vector& v);
+	bool operator<(const Vector& v, float f);
+	bool operator<(float f, const Vector& v);
+	bool operator>=(const Vector& v, float f);
+	bool operator>=(float f, const Vector& v);
+	bool operator<=(const Vector& v, float f);
+	bool operator<=(float f, const Vector& v);
 }

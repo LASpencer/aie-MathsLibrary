@@ -18,7 +18,9 @@ namespace lasmath {
 
 	Matrix2 Matrix2::operator=(const Matrix2 & rhs)
 	{
-		return Matrix2(rhs);
+		m_xAxis = rhs.m_xAxis;
+		m_yAxis = rhs.m_yAxis;
+		return *this;
 	}
 
 

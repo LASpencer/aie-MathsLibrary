@@ -101,9 +101,20 @@ namespace lasmath {
 		// Multiply all components by f to get components of resultant vector
 		return Vector3(v[0] * f, v[1] * f, v[2] * f);
 	}
-	bool operator>(const Vector3 & a, const Vector3 & b)
+
+
+	bool operator==(const Vector3 & a, const Vector3 & b)
 	{
-		//TODO
-		return false;
+		// Vectors are equal if all components are equal
+		if (a[0] == b[0] && a[1] == b[1] && a[2] == b[2]) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	bool operator!=(const Vector3 & a, const Vector3 & b)
+	{
+		return !(a == b);
 	}
 }
