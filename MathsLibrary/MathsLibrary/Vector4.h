@@ -30,6 +30,9 @@ namespace lasmath {
 		// Returns magnitude of vector
 		float magnitude() const;
 
+		// Returns square of vector's magnitude
+		float magnitudeSquared() const;
+
 		// Converts vector to a unit vector with same direction
 		void normalise();
 
@@ -50,4 +53,23 @@ namespace lasmath {
 	Vector4 operator-(const Vector4& a, const Vector4& b);
 	Vector4 operator*(const Vector4& v, float f);
 	Vector4 operator*(float f, const Vector4& v);
+
+	// Compare magnitudes of vectors
+	bool operator>(const Vector4& a, const Vector4& b);
+	bool operator<(const Vector4& a, const Vector4& b);
+	bool operator>=(const Vector4& a, const Vector4& b);
+	bool operator<=(const Vector4& a, const Vector4& b);
+
+	// Compare vector magnitude to given float
+	bool operator>(const Vector4& v, float f);
+	bool operator>(float f, const Vector4& v);
+	bool operator<(const Vector4& v, float f);
+	bool operator<(float f, const Vector4& v);
+	bool operator>=(const Vector4& v, float f);
+	bool operator>=(float f, const Vector4& v);
+	bool operator<=(const Vector4& v, float f);
+	bool operator<=(float f, const Vector4& v);
+
+	// Vectors are equal if all components are equal
+	bool operator==(const Vector4& a, const Vector4& b);
 }

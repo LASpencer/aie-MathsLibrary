@@ -60,6 +60,14 @@ namespace lasmath {
 		return magnitude;
 	}
 
+	float Vector4::magnitudeSquared() const
+	{
+		// Square of magnitude is quicker to calculate than magnitude and is
+		// useful when magnitude only needs to be compared to a value
+		float magnitudeSquared = (m_x * m_x) + (m_y * m_y) + (m_z*m_z) + (m_w * m_w);
+		return magnitudeSquared;
+	}
+
 	void Vector4::normalise()
 	{
 		// divide all components by magnitude
@@ -95,5 +103,9 @@ namespace lasmath {
 	{
 		// Multiply all components by f to get components of resultant vector
 		return Vector4(v[0] * f, v[1] * f, v[2] * f, v[3] * f);
+	}
+	bool operator>(const Vector4 & a, const Vector4 & b)
+	{
+		return false;
 	}
 }

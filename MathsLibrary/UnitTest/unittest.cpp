@@ -350,11 +350,14 @@ bool runUnitTests() {
 	TEST("Vector2 magnitude squared", mag2, 25.0f);
 
 	// Vector3 magnitude squared
-	//v3a = Vector3(2.0f, 4.0f, 3.0f);
-	//mag3 = v3a.magnitudeSquared();
-	//TEST("Vector3 magnitude squared", mag3, 29.0f);
+	v3a = Vector3(2.0f, 4.0f, 3.0f);
+	mag3 = v3a.magnitudeSquared();
+	TEST("Vector3 magnitude squared", mag3, 29.0f);
 
 	// Vector4 magnitude squared
+	v4a = Vector4(5.0f, 4.0f, 2.0f, 3.0f);
+	mag4 = v4a.magnitudeSquared();
+	TEST("Vector4 magnitude squared", mag4, 54.0f);
 
 	// Vector2 vector to vector comparison
 	v2a = Vector2(3.0f, 4.0f);
