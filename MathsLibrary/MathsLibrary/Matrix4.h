@@ -1,9 +1,9 @@
 #pragma once
-
+#include "Matrix.h"
 #include "Vector4.h"
 
 namespace lasmath {
-	class Matrix4
+	class Matrix4 : public Matrix
 	{
 	public:
 		Matrix4();

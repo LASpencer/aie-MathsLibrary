@@ -1,4 +1,5 @@
 #pragma once
+#include "Matrix.h"
 
 //#ifdef MATHSLIBRARY_EXPORTS
 //#define MATHSLIBRARY_API __declspec(dllexport)
@@ -9,7 +10,7 @@
 #include "Vector3.h"
 
 namespace lasmath {
-	class Matrix3
+	class Matrix3 : public Matrix
 	{
 	public:
 		Matrix3();

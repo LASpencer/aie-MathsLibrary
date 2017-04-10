@@ -18,6 +18,9 @@ namespace lasmath {
 
 	Matrix2 Matrix2::operator=(const Matrix2 & rhs)
 	{
+		/* HACK for some reason changing vector class to use inheritance implicitely deleted assignment
+		research causes more deeply, try to figure out solution/workaround
+		*/
 		m_xAxis = rhs.m_xAxis;
 		m_yAxis = rhs.m_yAxis;
 		return *this;
