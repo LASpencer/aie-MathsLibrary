@@ -40,6 +40,7 @@ namespace lasmath {
 		m_yAxis = Vector2(-sinf(angle), cosf(angle));
 	}
 
+
 	Vector2 operator*(const Matrix2 & a, const Vector2 & v)
 	{
 		//TODO comment vector transformation
