@@ -14,6 +14,8 @@ namespace lasmath {
 	public:
 		Matrix2();
 		Matrix2(float xx, float xy, float yx, float yy);
+		Matrix2(const Matrix2& rhs);
+		Matrix2 operator=(const Matrix2& rhs);
 		~Matrix2();
 
 		// Return reference to vector axis

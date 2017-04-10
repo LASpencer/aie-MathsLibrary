@@ -14,6 +14,8 @@ namespace lasmath {
 	public:
 		Matrix3();
 		Matrix3(float xx, float xy, float xz, float yx, float yy, float yz, float zx, float zy, float zz);
+		Matrix3(const Matrix3 &rhs);
+		Matrix3 operator=(const Matrix3& rhs);
 		~Matrix3();
 
 		// Return reference to vector axis

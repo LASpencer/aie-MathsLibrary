@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Vector.h"
 //#ifdef MATHSLIBRARY_EXPORTS
 //#define MATHSLIBRARY_API __declspec(dllexport)
 //#else
@@ -7,7 +7,7 @@
 //#endif
 
 namespace lasmath {
-	class Vector2
+	class Vector2: public Vector
 	{
 	public:
 		Vector2();

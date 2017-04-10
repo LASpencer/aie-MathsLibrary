@@ -9,6 +9,8 @@ namespace lasmath {
 		Matrix4();
 		Matrix4(float xx, float xy, float xz, float xw, float yx, float yy, float yz, float yw,
 			float zx, float zy, float zz, float zw, float tx, float ty, float tz, float tw);
+		Matrix4(const Matrix4 &rhs);
+		Matrix4 operator=(const Matrix4 &rhs);
 		~Matrix4();
 
 		// Return reference to vector axis

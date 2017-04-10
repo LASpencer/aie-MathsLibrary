@@ -10,6 +10,18 @@ namespace lasmath {
 	{
 	}
 
+	Matrix3::Matrix3(const Matrix3 & rhs)
+	{
+		m_xAxis = rhs.m_xAxis;
+		m_yAxis = rhs.m_yAxis;
+		m_zAxis = rhs.m_zAxis;
+	}
+
+	Matrix3 Matrix3::operator=(const Matrix3 & rhs)
+	{
+		return Matrix3(rhs);
+	}
+
 
 	Matrix3::~Matrix3()
 	{
