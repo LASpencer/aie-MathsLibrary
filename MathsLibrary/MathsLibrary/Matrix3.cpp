@@ -78,14 +78,32 @@ namespace lasmath {
 	void Matrix3::setEulerRotate(float alpha, float beta, float gamma)
 	{
 		//z-x-z rotation
-		//TODO
+		//TODO further commenting
+		float cosAlpha = cosf(alpha);
+		float sinAlpha = sinf(alpha);
+		float cosBeta = cosf(beta);
+		float sinBeta = sinf(beta);
+		float cosGamma = cosf(gamma);
+		float sinGamma = sinf(gamma);
+		m_xAxis = { cosAlpha*cosGamma - cosBeta*sinAlpha*sinGamma, cosGamma*sinAlpha + cosAlpha*cosBeta*sinGamma, sinBeta*sinGamma };
+		m_yAxis = { -cosAlpha*sinGamma - cosBeta*cosGamma*sinAlpha, cosAlpha*cosBeta*cosGamma - sinAlpha*sinGamma, cosGamma*sinBeta };
+		m_zAxis = { sinAlpha*sinBeta, -cosAlpha*sinBeta, cosBeta };
 	}
 
 	void Matrix3::setTaitBryanRotate(float yaw, float pitch, float roll)
 	{
 		//z-y-x rotation
-		//TODO
+		//TODO further commenting
+		float cosYaw = cosf(yaw);
+		float sinYaw = sinf(yaw);
+		float cosPitch = cosf(pitch);
+		float sinPitch = sinf(pitch);
+		float cosRoll = cosf(roll);
+		float sinRoll = sinf(roll);
 
+		m_xAxis = { cosYaw*cosPitch, sinYaw*cosPitch, -sinPitch };
+		m_yAxis = { cosYaw*sinPitch*sinRoll - sinYaw*cosRoll, cosYaw*cosRoll + sinYaw*sinPitch*sinRoll, cosPitch*sinRoll };
+		m_zAxis = { sinYaw*sinRoll + cosYaw*sinPitch*cosRoll, sinYaw*sinPitch*cosRoll - cosYaw*sinRoll, cosPitch*cosRoll };
 	}
 
 	Vector3 operator*(const Matrix3 & a, const Vector3 & v)

@@ -86,6 +86,39 @@ namespace lasmath {
 		m_yAxis = Vector4(-sinf(angle), cosf(angle), 0, 0);
 	}
 
+	void Matrix4::setEulerRotate(float alpha, float beta, float gamma)
+	{
+		//z-x-z rotation
+		//TODO further commenting
+		float cosAlpha = cosf(alpha);
+		float sinAlpha = sinf(alpha);
+		float cosBeta = cosf(beta);
+		float sinBeta = sinf(beta);
+		float cosGamma = cosf(gamma);
+		float sinGamma = sinf(gamma);
+		m_xAxis = { cosAlpha*cosGamma - cosBeta*sinAlpha*sinGamma, cosGamma*sinAlpha + cosAlpha*cosBeta*sinGamma, sinBeta*sinGamma, 0 };
+		m_yAxis = { -cosAlpha*sinGamma - cosBeta*cosGamma*sinAlpha, cosAlpha*cosBeta*cosGamma - sinAlpha*sinGamma, cosGamma*sinBeta, 0 };
+		m_zAxis = { sinAlpha*sinBeta, -cosAlpha*sinBeta, cosBeta, 0 };
+		m_tAxis = { 0, 0, 0, 1 };
+	}
+
+	void Matrix4::setTaitBryanRotate(float yaw, float pitch, float roll)
+	{
+		//z-y-x rotation
+		//TODO further commenting
+		float cosYaw = cosf(yaw);
+		float sinYaw = sinf(yaw);
+		float cosPitch = cosf(pitch);
+		float sinPitch = sinf(pitch);
+		float cosRoll = cosf(roll);
+		float sinRoll = sinf(roll);
+
+		m_xAxis = { cosYaw*cosPitch, sinYaw*cosPitch, -sinPitch, 0 };
+		m_yAxis = { cosYaw*sinPitch*sinRoll - sinYaw*cosRoll, cosYaw*cosRoll + sinYaw*sinPitch*sinRoll, cosPitch*sinRoll, 0 };
+		m_zAxis = { sinYaw*sinRoll + cosYaw*sinPitch*cosRoll, sinYaw*sinPitch*cosRoll - cosYaw*sinRoll, cosPitch*cosRoll, 0 };
+		m_tAxis = { 0,0,0,1 };
+	}
+
 	Vector4 operator*(const Matrix4 & a, const Vector4 & v)
 	{
 		// TODO 3D Homologous vector transform
