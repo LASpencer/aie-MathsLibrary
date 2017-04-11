@@ -478,7 +478,7 @@ bool runUnitTests() {
 	TEST("Vector4 float comparison A", i1, greater);
 	TEST("Vector4 float comparison B", i2, less);
 
-	//TODO euler angle tests
+	//TODO better euler angle tests
 	
 	m3a.setEulerRotate(0.0f,3.98f,0.0f);
 	m4a.setEulerRotate (0.0f, 4.5f, 0.0f);
@@ -495,6 +495,7 @@ bool runUnitTests() {
 	TEST("Matrix4 set rotate", m4c, Matrix4(0.751806f, 0.659385f, 0, 0, -0.659385f, 0.751806f, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1));
 
 	//TODO tate-bryan tests
+
 
 	return true;
 }
