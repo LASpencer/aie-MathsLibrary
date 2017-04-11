@@ -75,6 +75,19 @@ namespace lasmath {
 		m_yAxis = Vector3(-sinf(angle), cosf(angle), 0);
 	}
 
+	void Matrix3::setEulerRotate(float alpha, float beta, float gamma)
+	{
+		//z-x-z rotation
+		//TODO
+	}
+
+	void Matrix3::setTaitBryanRotate(float yaw, float pitch, float roll)
+	{
+		//z-y-x rotation
+		//TODO
+
+	}
+
 	Vector3 operator*(const Matrix3 & a, const Vector3 & v)
 	{
 		// TODO comment 3D Vector Transformation

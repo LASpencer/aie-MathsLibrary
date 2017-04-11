@@ -90,4 +90,16 @@ namespace lasmath {
 		// are equal but not direction.
 		return !(b > a);
 	}
+	int Vector::compareMagnitude(float f)
+	{
+		// magnitudeSquared() used to avoid calculating square roots
+		float difference = magnitudeSquared() - (f*f);
+		if (difference < 0.0) {
+			return -1;
+		} else if (difference >0.0){
+			return 1;
+		} else{
+			return 0;
+		}
+	}
 }

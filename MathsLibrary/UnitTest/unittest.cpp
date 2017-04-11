@@ -120,7 +120,6 @@ bool compare(bool a, bool b) {
 	return a == b;
 }
 
-
 // end additional compare functions
 
 template <typename T>
@@ -449,51 +448,35 @@ bool runUnitTests() {
 	TEST("Vector4 equality C", b3, b_true);
 
 	// Vector2 float comparison
-	b1 = v2a < 5.0f;	//false
-	b2 = v2a <= 5.0f;	//true
-	b3 = v2a < 7.0f;	//true
-	b4 = v2a > 3.0f;	//true
-	b5 = 7.0f > v2a; //true
-	bool b6 = 3.0f > v2a; //false
 
-	TEST("Vector2 float comparison A", b1, b_false);
-	TEST("Vector2 float comparison B", b2, b_true);
-	TEST("Vector2 float comparison C", b3, b_true);
-	TEST("Vector2 float comparison D", b4, b_true);
-	TEST("Vector2 float comparison E", b5, b_true);
-	TEST("Vector2 float comparison F", b6, b_false);
+	int equal = 0;
+	int greater = 1;
+	int less = -1;
+
+	int i1 = v2a.compareMagnitude(5.0f);	//0
+	int i2 = v2a.compareMagnitude(7.0f);	//-1
+	int i3 = v2a.compareMagnitude(3.0f);	//1
+
+
+	TEST("Vector2 float comparison A", i1, equal);
+	TEST("Vector2 float comparison B", i2, less);
+	TEST("Vector2 float comparison C", i3, greater);
 
 	// Vector3 float comparison
 
-	b1 = v3a < 5.0f;	//false
-	b2 = v3a <= 8.0f;	//true
-	b3 = v3a < 8.0f;	//true
-	b4 = v3a > 3.0f;	//true
-	b5 = 8.0f > v3a; //true
-	b6 = 3.0f > v3a; //false
+	i1 = v3a.compareMagnitude(5.0f);	//1
+	i2 = v3a.compareMagnitude(8.0f);	//-1
 
-	TEST("Vector3 float comparison A", b1, b_false);
-	TEST("Vector3 float comparison B", b2, b_true);
-	TEST("Vector3 float comparison C", b3, b_true);
-	TEST("Vector3 float comparison D", b4, b_true);
-	TEST("Vector3 float comparison E", b5, b_true);
-	TEST("Vector3 float comparison F", b6, b_false);
+	TEST("Vector3 float comparison A", i1, greater);
+	TEST("Vector3 float comparison B", i2, less);
 
 	// Vector4 float comparison
 
-	b1 = v4a < 5.0f;	//false
-	b2 = v4a <= 8.0f;	//true
-	b3 = v4a < 8.0f;	//true
-	b4 = v4a > 3.0f;	//true
-	b5 = 8.0f > v4a; //true
-	b6 = 3.0f > v4a; //false
+	i1 = v4a.compareMagnitude(5.0f);	//1
+	i2 = v4a.compareMagnitude(8.0f);	//-1
 
-	TEST("Vector4 float comparison A", b1, b_false);
-	TEST("Vector4 float comparison B", b2, b_true);
-	TEST("Vector4 float comparison C", b3, b_true);
-	TEST("Vector4 float comparison D", b4, b_true);
-	TEST("Vector4 float comparison E", b5, b_true);
-	TEST("Vector4 float comparison F", b6, b_false);
+	TEST("Vector4 float comparison A", i1, greater);
+	TEST("Vector4 float comparison B", i2, less);
 
 	return true;
 }

@@ -22,6 +22,11 @@ namespace lasmath {
 
 		// Converts vector to a unit vector with same direction
 		virtual void normalise() =0;
+
+		/* Compares magnitude of vector to value given.
+			Returns 0 if equal, -1 if vector magnitude is lower, 1 if vector magnitude is greater
+		*/
+		int compareMagnitude(float f);
 	};
 
 	// Compare magnitudes of vectors
@@ -30,13 +35,4 @@ namespace lasmath {
 	bool operator>=(const Vector& a, const Vector& b);
 	bool operator<=(const Vector& a, const Vector& b);
 
-	// Compare vector magnitude to given float
-	bool operator>(const Vector& v, float f);
-	bool operator>(float f, const Vector& v);
-	bool operator<(const Vector& v, float f);
-	bool operator<(float f, const Vector& v);
-	bool operator>=(const Vector& v, float f);
-	bool operator>=(float f, const Vector& v);
-	bool operator<=(const Vector& v, float f);
-	bool operator<=(float f, const Vector& v);
 }

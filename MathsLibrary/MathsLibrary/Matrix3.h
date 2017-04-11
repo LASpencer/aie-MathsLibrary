@@ -32,7 +32,10 @@ namespace lasmath {
 		void setRotateY(float angle);
 		// Set matrix to transformation matrix rotating around Z axis by angle
 		void setRotateZ(float angle);
-
+		// Set matrix to a transformation matrix rotating to orientation given by Euler angles
+		void setEulerRotate(float alpha, float beta, float gamma);
+		// Set matrix to a transformation matrix rotating to orientation given by Tait-Bryan angles
+		void setTaitBryanRotate(float yaw, float pitch, float roll);
 
 	protected:
 		union {
