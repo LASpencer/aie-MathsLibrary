@@ -81,6 +81,20 @@ namespace lasmath {
 		m_w *= magReciprocal;
 	}
 
+	int Vector4::compareMagnitude(float f)
+	{
+		float difference = magnitudeSquared() - (f*f);
+		if (difference < 0.0) {
+			return -1;
+		}
+		else if (difference >0.0) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+
 	Vector4 operator+(const Vector4 & a, const Vector4 & b)
 	{
 		// Add corresponding vector components to get components of resultant vector
@@ -103,6 +117,37 @@ namespace lasmath {
 	{
 		// Multiply all components by f to get components of resultant vector
 		return Vector4(v[0] * f, v[1] * f, v[2] * f, v[3] * f);
+	}
+
+	bool operator>(const Vector4& a, const Vector4& b)
+	{
+		float aMagnitudeSquared = a.magnitudeSquared();
+		float bMagnitudeSquared = b.magnitudeSquared();
+		return aMagnitudeSquared > bMagnitudeSquared;
+	}
+	bool operator<(const Vector4& a, const Vector4& b)
+	{
+		// This operator should be read as "Magnitude of a is less than magnitude of b"
+		// Since the magnitudes only need to be compared, the quicker magnitudeSquared method is used
+		return b > a;
+	}
+
+	bool operator<=(const Vector4& a, const Vector4& b)
+	{
+		// This operator should be read as "Magnitude of a is less than or equal to magnitude of b"
+		// Note that == is defined as vectors having equal magnitude and direction
+		// So "a<b || a==b" is not the same as "a<=b", as they evaluate differently when magnitudes
+		// are equal but not direction.
+		return !(a > b);
+	}
+
+	bool operator>=(const Vector4& a, const Vector4& b)
+	{
+		// This operator should be read as "Magnitude of a is greater than or equal to magnitude of b"
+		// Note that == is defined as vectors having equal magnitude and direction
+		// So "a>b || a==b" is not the same as "a>=b", as they evaluate differently when magnitudes
+		// are equal but not direction.
+		return !(b > a);
 	}
 
 	bool operator==(const Vector4 & a, const Vector4 & b)

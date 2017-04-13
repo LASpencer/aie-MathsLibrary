@@ -496,6 +496,11 @@ bool runUnitTests() {
 
 	//TODO tate-bryan tests
 
+	// Matrix inversion
+	m2 = { 2, -3,5,-7 };
+	m2.calculateInverse(m2b);
+	TEST("Matrix2 inversion works", m2b, Matrix2(-7, 3, -5, 2));
+	TEST("Matrix2 inversion doesn't change matrix", m2, Matrix2(2, -3, 5, -7));
 
 	return true;
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include "Vector.h"
 //#ifdef MATHSLIBRARY_EXPORTS
 //#define MATHSLIBRARY_API __declspec(dllexport)
 //#else
@@ -7,7 +6,7 @@
 //#endif
 
 namespace lasmath {
-	class Vector4: public Vector
+	class Vector4
 	{
 	public:
 		Vector4();
@@ -36,6 +35,11 @@ namespace lasmath {
 		// Converts vector to a unit vector with same direction
 		void normalise();
 
+		/* Compares magnitude of vector to value given.
+		Returns 0 if equal, -1 if vector magnitude is lower, 1 if vector magnitude is greater
+		*/
+		int compareMagnitude(float f);
+
 	protected:
 		// Components of vector
 		union {
@@ -53,6 +57,12 @@ namespace lasmath {
 	Vector4 operator-(const Vector4& a, const Vector4& b);
 	Vector4 operator*(const Vector4& v, float f);
 	Vector4 operator*(float f, const Vector4& v);
+
+	// Compare magnitudes of vectors
+	bool operator>(const Vector4& a, const Vector4& b);
+	bool operator<(const Vector4& a, const Vector4& b);
+	bool operator>=(const Vector4& a, const Vector4& b);
+	bool operator<=(const Vector4& a, const Vector4& b);
 
 	// Vectors are equal if all components are equal
 	bool operator==(const Vector4& a, const Vector4& b);

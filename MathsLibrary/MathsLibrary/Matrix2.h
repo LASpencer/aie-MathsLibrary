@@ -29,6 +29,9 @@ namespace lasmath {
 		// Set matrix to be a transformation matrix rotating by angle
 		void setRotate(float angle);
 
+		// Calculates inverse of this matrix and copies it to dest
+		// Returns true if matrix is invertable, returns false if singular or poorly conditioned
+		bool calculateInverse(Matrix2& dest);
 
 	protected:
 		union {
