@@ -5,7 +5,11 @@
 //#define MATHSLIBRARY_API __declspec(dllimport)
 //#endif
 
+
 namespace lasmath {
+	class Vector3;
+	class Vector4;
+
 	class Vector2
 	{
 	public:
@@ -20,6 +24,12 @@ namespace lasmath {
 
 		// cast vector as array of floats
 		explicit operator float*();
+
+		// cast as Vector3 with z = 0
+		explicit operator Vector3();
+
+		// cast as Vector4 with z=0 and w=0;
+		explicit operator Vector4();
 
 		// Dot multiplication of two vectors
 		float dot(const Vector2& b) const;

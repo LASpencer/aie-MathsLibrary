@@ -1,5 +1,7 @@
 #include <math.h>
 #include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
 //#include <exception>
 
 namespace lasmath {
@@ -32,6 +34,20 @@ namespace lasmath {
 	{
 		// Return array of components
 		return m_component;
+	}
+
+	Vector2::operator Vector3()
+	{
+		//TODO check this is right
+		//TODO tests
+		return Vector3(m_x, m_y, 0);
+	}
+
+	Vector2::operator Vector4()
+	{
+		//TODO check this is right(vector returned by cast doesn't affect original vector)
+		//TODO tests
+		return Vector4(m_x, m_y, 0,0);
 	}
 
 	float Vector2::dot(const Vector2& b) const

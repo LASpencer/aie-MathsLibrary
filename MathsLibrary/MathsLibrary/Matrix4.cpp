@@ -119,6 +119,17 @@ namespace lasmath {
 		m_tAxis = { 0,0,0,1 };
 	}
 
+	bool Matrix4::calculateInverse(Matrix4 & dest)
+	{
+		Matrix4 inverse(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+		Matrix4 rowReduced = *this;
+		bool invertable = Matrix::invertTransform<4, 4>((float*)rowReduced, (float*)inverse);
+		if (invertable) {
+			dest = inverse;
+		}
+		return invertable;
+	}
+
 	Vector4 operator*(const Matrix4 & a, const Vector4 & v)
 	{
 		// TODO 3D Homologous vector transform

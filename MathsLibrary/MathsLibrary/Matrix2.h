@@ -32,6 +32,8 @@ namespace lasmath {
 		// Calculates inverse of this matrix and copies it to dest
 		// Returns true if matrix is invertable, returns false if singular or poorly conditioned
 		bool calculateInverse(Matrix2& dest);
+		//TODO undo transformation
+		//TODO undo transformation on vector
 
 	protected:
 		union {
