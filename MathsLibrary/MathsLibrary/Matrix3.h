@@ -37,6 +37,10 @@ namespace lasmath {
 		// Set matrix to a transformation matrix rotating to orientation given by Tait-Bryan angles
 		void setTaitBryanRotate(float yaw, float pitch, float roll);
 
+		// Calculates inverse of this matrix and copies it to dest
+		// Returns true if matrix is invertable, returns false if singular or poorly conditioned
+		bool calculateInverse(Matrix3& dest);
+
 	protected:
 		union {
 			struct {

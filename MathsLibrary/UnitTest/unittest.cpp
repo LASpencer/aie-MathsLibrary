@@ -501,6 +501,11 @@ bool runUnitTests() {
 	m2.calculateInverse(m2b);
 	TEST("Matrix2 inversion works", m2b, Matrix2(-7, 3, -5, 2));
 	TEST("Matrix2 inversion doesn't change matrix", m2, Matrix2(2, -3, 5, -7));
+	m3a = {0,1,4,1,0,-3,2,3,8};
+	m3a.calculateInverse(m3b);
+	TEST("Matrix3 inversion works", m3b, Matrix3(-4.5f,-2,1.5f,7,4,-2,-1.5f,-1,0.5f));
+	TEST("Matrix3 inversion doesn't change matrix", m3a, Matrix3(0, 1, 4, 1, 0, -3, 2, 3, 8));
+	//TODO test it fails uninvertable matrices
 
 	return true;
 }

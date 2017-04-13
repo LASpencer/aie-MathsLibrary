@@ -106,6 +106,17 @@ namespace lasmath {
 		m_zAxis = { sinYaw*sinRoll + cosYaw*sinPitch*cosRoll, sinYaw*sinPitch*cosRoll - cosYaw*sinRoll, cosPitch*cosRoll };
 	}
 
+	bool Matrix3::calculateInverse(Matrix3 & dest)
+	{
+		Matrix3 inverse(1, 0, 0, 0, 1,0,0,0,1);							//Start with identity matrix
+		Matrix3 rowReduced = *this;										//Get copy of this matrix to row reduce
+		bool invertable = Matrix::invertTransform<3, 3>((float*)rowReduced, (float*)inverse);
+		if (invertable) {
+			dest = inverse;
+		}
+		return invertable;
+	}
+
 	Vector3 operator*(const Matrix3 & a, const Vector3 & v)
 	{
 		// TODO comment 3D Vector Transformation

@@ -56,7 +56,7 @@ namespace lasmath {
 		m_yAxis = Vector2(-sinf(angle), cosf(angle));
 	}
 
-	bool Matrix2::calculateInverse(Matrix2 & dest)		//TODO get rid of this, instead make template functions t
+	bool Matrix2::calculateInverse(Matrix2 & dest)
 	{
 		Matrix2 inverse(1,0,0,1);							//Start with identity matrix
 		Matrix2 rowReduced = *this;							//Get copy of this matrix to row reduce
