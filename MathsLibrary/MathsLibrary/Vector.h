@@ -1,5 +1,6 @@
 #pragma once
 #include <math.h>
+#include <type_traits>
 
 namespace lasmath {
 	template<size_t DIM>
@@ -7,30 +8,24 @@ namespace lasmath {
 	{
 	public:
 		Vector() {
-			m_component = { 0.0f };
+			//HACK find a way to do this all at once. Memset?
+			for (size_t i = 0; i < DIM; ++i) {
+				m_component[i] = 0.0f;
+			}
 		};
 
-		// HACK find a more elegant method than this
-		// Double check requirements, maybe initializer list/array is allowed?
-#if DIM == 2
-		Vector(float x, float y) {
+		// HACK find a more elegant method than this, maybe with variadic arguments?
+		// Double check requirements
+		Vector(float x, float y, float z=0.0f, float w=0.0f) {
 			m_component[0] = x;
 			m_component[1] = y;
+			if (DIM >= 3) {
+				m_component[2] = z;
+				if (DIM >= 4) {		//HACK I can see where this is going
+					m_component[3] = w;
+				}
+			}
 		};
-#elif DIM == 3
-		Vector(float x, float y, float z) {
-			m_component[0] = x;
-			m_component[1] = y;
-			m_component[2] = z;
-		};
-#elif DIM == 4
-		Vector(float x, float y, float z, float w) {
-			m_component[0] = x;
-			m_component[1] = y;
-			m_component[2] = z;
-			m_component[3] = w;
-		};
-#endif
 
 		~Vector()
 		{};
@@ -67,26 +62,30 @@ namespace lasmath {
 			return product;
 		};
 
-#if DIM == 3
-		// Cross multiplication of two vectors
-		Vector<3> cross(const Vector<3>& b) const {
-			Vector<3> product;
+// Cross multiplication of two vectors
+template <std::size_t D = DIM>
+typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b) const {
+			Vector<D> product;
 			product[0] = m_component[1] * b[2] - m_component[2] * b[1];
 			product[1] = m_component[2] * b[0] - m_component[0] * b[2];
 			product[2] = m_component[0] * b[1] - m_component[1] * b[0];
+			if (D == 4) {					//Might be superfluous?
+				product[3] = 0.0f;			//HACK try removing this
+			}
 			return product;
 		};
-#elif DIM == 4
-		// Cross multiplication of two vectors
-		Vector<4> cross(const Vector<4>& b) const {
-			Vector<4> product;
-			product[0] = m_component[1] * b[2] - m_component[2] * b[1];
-			product[1] = m_component[2] * b[0] - m_component[0] * b[2];
-			product[2] = m_component[0] * b[1] - m_component[1] * b[0];
-			product[3] = 0.0f;
-			return product;
-	};
-#endif
+
+//		// Cross multiplication of two vectors
+//template <std::size_t D = DIM>
+//typename std::enable_if<D == 4, Vector<4>>::type Vector<4> cross(const Vector<4>& b) const {
+//			Vector<4> product;
+//			product[0] = m_component[1] * b[2] - m_component[2] * b[1];
+//			product[1] = m_component[2] * b[0] - m_component[0] * b[2];
+//			product[2] = m_component[0] * b[1] - m_component[1] * b[0];
+//			product[3] = 0.0f;
+//			return product;
+//		};
+
 
 		// Returns square of vector's magnitude
 		float magnitudeSquared() const {
@@ -108,7 +107,7 @@ namespace lasmath {
 
 		// Converts vector to a unit vector with same direction
 		void normalise() {
-		// Divide all components by magnitude
+			// Divide all components by magnitude
 			float magReciprocal = 1.0f / magnitude();
 			for (size_t i = 0; i < DIM; ++i) {
 				m_component[i] *= magReciprocal;
@@ -118,12 +117,12 @@ namespace lasmath {
 		/* Compares magnitude of vector to value given.
 		Returns 0 if equal, -1 if vector magnitude is lower, 1 if vector magnitude is greater
 		*/
-		int compareMagnitude(float f) const{
+		int compareMagnitude(float f) const {
 			float difference = magnitudeSquared() - (f*f);
 			if (difference < 0.0) {
 				return -1;
 			}
-			else if (difference >0.0) {
+			else if (difference > 0.0) {
 				return 1;
 			}
 			else {
@@ -131,25 +130,75 @@ namespace lasmath {
 			}
 		};
 
-		// Arithmetic operators
-
-		Vector<DIM> operator+(const Vector<DIM>& a, const Vector<DIM>& b);
-		Vector<DIM> operator-(const Vector<DIM>& a, const Vector<DIM>& b);
-		Vector<DIM> operator*(const Vector<DIM>& v, float f);
-		Vector<DIM> operator*(float f, const Vector<DIM>& v);
-
-		// Compare magnitudes of vectors
-		bool operator>(const Vector<DIM>& a, const Vector<DIM>& b);
-		bool operator<(const Vector<DIM>& a, const Vector<DIM>& b);
-		bool operator>=(const Vector<DIM>& a, const Vector<DIM>& b);
-		bool operator<=(const Vector<DIM>& a, const Vector<DIM>& b);
-
-		// Vectors are equal if all components are equal
-		bool operator==(const Vector<DIM>& a, const Vector<DIM>& b);
-		bool operator!=(const Vector<DIM>& a, const Vector<DIM>& b);
-
 	protected:
 		float m_component[DIM];
 	};
 
+
+	// Arithmetic operators
+	template<size_t DIM>
+	Vector<DIM> operator+(const Vector<DIM>& a, const Vector<DIM>& b) {
+		// Add corresponding vector components to get components of resultant vector
+		Vector<DIM> sum;
+		for (size_t i = 0; i < DIM; ++i) {
+			sum[i] = a[i] + b[i];
+		}
+		return sum;
+	};
+	template<size_t DIM>
+	Vector<DIM> operator-(const Vector<DIM>& a, const Vector<DIM>& b) {
+		// Subtract corresponding vector components to get components of resultant vector
+		Vector<DIM> difference;
+		for (size_t i = 0; i < DIM; ++i) {
+			difference[i] = a[i] - b[i];
+		}
+		return difference;
+	};
+	template<size_t DIM>
+	Vector<DIM> operator*(const Vector<DIM>& v, float f) {
+		// Multiply all components by f to get components of resultant vector
+		Vector<DIM> product;
+		for (size_t i = 0; i < DIM; ++i) {
+			product[i] = v[i] *f;
+		}
+		return product;
+	};
+	template<size_t DIM>
+	Vector<DIM> operator*(float f, const Vector<DIM>& v) {
+		return v * f;
+	};
+
+	// Compare magnitudes of vectors
+	template<size_t DIM>
+	bool operator>(const Vector<DIM>& a, const Vector<DIM>& b) {
+		//TODO copy over commenting into these
+		return a.magnitudeSquared() > b.magnitudeSquared();
+	};
+	template<size_t DIM>
+	bool operator<(const Vector<DIM>& a, const Vector<DIM>& b) {
+		return b > a;
+	};
+	template<size_t DIM>
+	bool operator>=(const Vector<DIM>& a, const Vector<DIM>& b) {
+		return !(b > a);
+	};
+	template<size_t DIM>
+	bool operator<=(const Vector<DIM>& a, const Vector<DIM>& b) {
+		return !(a > b);
+	};
+
+	// Vectors are equal if all components are equal
+	template<size_t DIM>
+	bool operator==(const Vector<DIM>& a, const Vector<DIM>& b) {
+		for (size_t i = 0; i < DIM; ++i) {
+			if (a[i] != b[i]) {
+				return false;
+			}
+		}
+		return true;
+	};
+	template<size_t DIM>
+	bool operator!=(const Vector<DIM>& a, const Vector<DIM>& b) {
+		return !(a == b);
+	};
 }

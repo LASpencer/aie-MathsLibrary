@@ -7,7 +7,7 @@
 //#define MATHSLIBRARY_API __declspec(dllimport)
 //#endif
 
-#include "Vector3.h"
+#include "Vector.h"
 
 namespace lasmath {
 	class Matrix3 : public Matrix
@@ -20,8 +20,8 @@ namespace lasmath {
 		~Matrix3();
 
 		// Return reference to vector axis
-		Vector3& operator[](size_t n);
-		const Vector3& operator[](size_t n) const;
+		Vector<3>& operator[](size_t n);
+		const Vector<3>& operator[](size_t n) const;
 
 		// Cast matrix as array of floats
 		explicit operator float*();
@@ -44,17 +44,17 @@ namespace lasmath {
 	protected:
 		union {
 			struct {
-				Vector3 m_xAxis;
-				Vector3 m_yAxis;
-				Vector3 m_zAxis;
+				Vector<3> m_xAxis;
+				Vector<3> m_yAxis;
+				Vector<3> m_zAxis;
 			};
-			Vector3 m_axis[3];
+			Vector<3> m_axis[3];
 			float m_element[3][3];
 		};
 	};
 
 	// Vector transformation
-	Vector3 operator*(const Matrix3& a, const Vector3& v);
+	Vector<3> operator*(const Matrix3& a, const Vector<3>& v);
 
 	// Matrix concatenation
 	Matrix3 operator*(const Matrix3& a, const Matrix3& b);

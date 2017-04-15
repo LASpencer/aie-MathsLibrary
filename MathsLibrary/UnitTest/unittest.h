@@ -1,6 +1,7 @@
 #pragma once
 
 // YOUR INCLUDES HERE
+#include "Vector.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -10,9 +11,9 @@
 
 
 // TYPEDEFS IF NEEDED
- typedef lasmath::Vector2 Vector2; 
- typedef lasmath::Vector3 Vector3;
- typedef lasmath::Vector4 Vector4;
+ typedef lasmath::Vector<2> Vector2; 
+ typedef lasmath::Vector<3> Vector3;
+ typedef lasmath::Vector<4> Vector4;
  typedef lasmath::Matrix2 Matrix2;
  typedef lasmath::Matrix3 Matrix3;
  typedef lasmath::Matrix4 Matrix4;

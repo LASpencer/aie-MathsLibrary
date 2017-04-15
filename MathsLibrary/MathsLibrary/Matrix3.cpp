@@ -2,7 +2,7 @@
 #include "Matrix3.h"
 
 namespace lasmath {
-	Matrix3::Matrix3() : m_xAxis(Vector3()), m_yAxis(Vector3()), m_zAxis(Vector3())
+	Matrix3::Matrix3() : m_xAxis(Vector<3>()), m_yAxis(Vector<3>()), m_zAxis(Vector<3>())
 	{
 	}
 
@@ -30,13 +30,13 @@ namespace lasmath {
 	{
 	}
 
-	Vector3& Matrix3::operator[](size_t n)
+	Vector<3>& Matrix3::operator[](size_t n)
 	{
 		// TODO throw exception if n > 2
 		return m_axis[n];
 	}
 
-	const Vector3 & Matrix3::operator[](size_t n) const
+	const Vector<3> & Matrix3::operator[](size_t n) const
 	{
 		// TODO throw exception if n > 2
 		return m_axis[n];
@@ -51,28 +51,28 @@ namespace lasmath {
 	void Matrix3::setRotateX(float angle)
 	{
 		// Set x axis as unit vector (1,0,0)
-		m_xAxis = Vector3(1, 0, 0);
+		m_xAxis = Vector<3>(1, 0, 0);
 		// Set y and z axes as unit vectors rotated around x axis by given angle
-		m_yAxis = Vector3(0, cosf(angle), sinf(angle));
-		m_zAxis = Vector3(0, -sinf(angle), cosf(angle));
+		m_yAxis = Vector<3>(0, cosf(angle), sinf(angle));
+		m_zAxis = Vector<3>(0, -sinf(angle), cosf(angle));
 	}
 
 	void Matrix3::setRotateY(float angle)
 	{
 		// Set y axis as unit vector (0,1,0)
-		m_yAxis = Vector3(0, 1, 0);
+		m_yAxis = Vector<3>(0, 1, 0);
 		// Set x and z axes as unit vectors rotated around y axis by given angle
-		m_xAxis = Vector3(cosf(angle), 0, -sinf(angle));
-		m_zAxis = Vector3(sinf(angle), 0, cosf(angle));
+		m_xAxis = Vector<3>(cosf(angle), 0, -sinf(angle));
+		m_zAxis = Vector<3>(sinf(angle), 0, cosf(angle));
 	}
 
 	void Matrix3::setRotateZ(float angle)
 	{
 		// Set z axis as unit vector (0,0,1)
-		m_zAxis = Vector3(0, 0, 1);
+		m_zAxis = Vector<3>(0, 0, 1);
 		// Set x and y axes as unit vectors rotated around z axis by given angle
-		m_xAxis = Vector3(cosf(angle), sinf(angle), 0);
-		m_yAxis = Vector3(-sinf(angle), cosf(angle), 0);
+		m_xAxis = Vector<3>(cosf(angle), sinf(angle), 0);
+		m_yAxis = Vector<3>(-sinf(angle), cosf(angle), 0);
 	}
 
 	void Matrix3::setEulerRotate(float alpha, float beta, float gamma)
@@ -117,11 +117,11 @@ namespace lasmath {
 		return invertable;
 	}
 
-	Vector3 operator*(const Matrix3 & a, const Vector3 & v)
+	Vector<3> operator*(const Matrix3 & a, const Vector<3> & v)
 	{
 		// TODO comment 3D Vector Transformation
 		// TODO refactor as for loop
-		Vector3 transformed;
+		Vector<3> transformed;
 		transformed[0] = a[0][0] * v[0] + a[1][0] * v[1] + a[2][0] * v[2];
 		transformed[1] = a[0][1] * v[0] + a[1][1] * v[1] + a[2][1] * v[2];
 		transformed[2] = a[0][2] * v[0] + a[1][2] * v[1] + a[2][2] * v[2];
