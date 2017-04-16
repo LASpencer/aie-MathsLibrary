@@ -1,6 +1,6 @@
 #pragma once
 #include "Matrix.h"
-#include "Vector4.h"
+#include "Vector.h"
 
 namespace lasmath {
 	class Matrix4 : public Matrix
@@ -14,8 +14,8 @@ namespace lasmath {
 		~Matrix4();
 
 		// Return reference to vector axis
-		Vector4& operator[](size_t n);
-		const Vector4& operator[](size_t n) const;
+		Vector<4>& operator[](size_t n);
+		const Vector<4>& operator[](size_t n) const;
 
 		// Cast matrix as array of floats
 		explicit operator float*();
@@ -38,18 +38,18 @@ namespace lasmath {
 	protected:
 		union {
 			struct {
-				Vector4 m_xAxis;
-				Vector4 m_yAxis;
-				Vector4 m_zAxis;
-				Vector4 m_tAxis;
+				Vector<4> m_xAxis;
+				Vector<4> m_yAxis;
+				Vector<4> m_zAxis;
+				Vector<4> m_tAxis;
 			};
-			Vector4 m_axis[4];
+			Vector<4> m_axis[4];
 			float m_element[4][4];
 		};
 	};
 
 	// Vector transformation
-	Vector4 operator*(const Matrix4& a, const Vector4& v);
+	Vector<4> operator*(const Matrix4& a, const Vector<4>& v);
 
 	// Matrix concatenation
 	Matrix4 operator*(const Matrix4& a, const Matrix4& b);

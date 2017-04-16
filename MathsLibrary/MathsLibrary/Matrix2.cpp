@@ -2,11 +2,11 @@
 #include "Matrix2.h"
 
 namespace lasmath {
-	Matrix2::Matrix2() : m_xAxis(Vector2()), m_yAxis(Vector2())
+	Matrix2::Matrix2() : m_xAxis(Vector<2>()), m_yAxis(Vector<2>())
 	{
 	}
 
-	Matrix2::Matrix2(float xx, float xy, float yx, float yy) : m_xAxis(Vector2(xx, xy)), m_yAxis(Vector2(yx, yy))
+	Matrix2::Matrix2(float xx, float xy, float yx, float yy) : m_xAxis(Vector<2>(xx, xy)), m_yAxis(Vector<2>(yx, yy))
 	{
 	}
 
@@ -31,13 +31,13 @@ namespace lasmath {
 	{
 	}
 
-	Vector2 & Matrix2::operator[](size_t n)
+	Vector<2> & Matrix2::operator[](size_t n)
 	{
 		// TODO throw exception if n > 1
 		return m_axis[n];
 	}
 
-	const Vector2 & Matrix2::operator[](size_t n) const
+	const Vector<2> & Matrix2::operator[](size_t n) const
 	{
 		// TODO throw exception if n > 1
 		return m_axis[n];
@@ -52,8 +52,8 @@ namespace lasmath {
 	void Matrix2::setRotate(float angle)
 	{
 		// Set axes as unit vectors rotated by given angle
-		m_xAxis = Vector2(cosf(angle), sinf(angle));
-		m_yAxis = Vector2(-sinf(angle), cosf(angle));
+		m_xAxis = Vector<2>(cosf(angle), sinf(angle));
+		m_yAxis = Vector<2>(-sinf(angle), cosf(angle));
 	}
 
 	bool Matrix2::calculateInverse(Matrix2 & dest)
@@ -67,11 +67,11 @@ namespace lasmath {
 		return invertable;
 	}
 
-	Vector2 operator*(const Matrix2 & a, const Vector2 & v)
+	Vector<2> operator*(const Matrix2 & a, const Vector<2> & v)
 	{
 		//TODO comment vector transformation
 		// TODO refactor as for loop
-		Vector2 transformed;
+		Vector<2> transformed;
 		transformed[0] = a[0][0] * v[0] + a[1][0] * v[1];
 		transformed[1] = a[0][1] * v[0] + a[1][1] * v[1];
 		return transformed;

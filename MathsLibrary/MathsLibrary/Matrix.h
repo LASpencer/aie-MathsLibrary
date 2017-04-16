@@ -1,4 +1,6 @@
 #pragma once
+#include "Vector.h"
+
 namespace lasmath {
 	class Matrix
 	{
@@ -56,7 +58,7 @@ namespace lasmath {
 		*/
 		static bool invertTransform(float* transform, float* result) {
 			// HACK this relies on a bunch of pointer arithmetic, since matrices aren't templated (yet?)
-			float emptyColumn[ORDER] = { 0.0f };
+			Vector<ORDER> emptyColumn;
 			bool matrixInvertable = true;
 			// Create 2d arrays holding pointers to matrix elements, so [] operator rather than pointer arithmetic can be used
 			float* transformArray[ORDER];
@@ -74,7 +76,7 @@ namespace lasmath {
 				reducedColumn[i] = 1.0f;
 				// Perform row operations until current column is in reduced echelon form
 				if (!areColumnsEqual<ORDER>(transformArray[i], reducedColumn)) {
-					if (areColumnsEqual<ORDER>(transformArray[i], emptyColumn)) {		// If column has no values, matrix must be singular
+					if (areColumnsEqual<ORDER>(transformArray[i], (float*)emptyColumn)) {		// If column has no values, matrix must be singular
 						matrixInvertable = false;
 						break;
 					}
