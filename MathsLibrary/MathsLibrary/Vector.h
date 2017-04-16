@@ -13,7 +13,9 @@ namespace lasmath {
 
 		template<typename... Args>
 		Vector(typename std::enable_if<(sizeof...(Args)+1 == DIM), float>::type x, Args... args) :m_component{ x,(float)args... } 
-		{};
+		{
+		//TODO argument exception if non-float
+		};
 
 		~Vector()
 		{};
@@ -35,12 +37,12 @@ namespace lasmath {
 		};
 
 		// cast as vector of different dimension
-		template<size_t D2>
-		explicit operator Vector<D2>() {
+		template<size_t D>
+		explicit operator Vector<D>() {
 			//TODO check this is right (vector returned by cast doesn't affect original vector)
 			//TODO test
-			Vector<D2> vec();
-			for (size_t i = 0; i < D2&&i<DIM; ++i) {
+			Vector<D> vec();
+			for (size_t i = 0; i < D&&i<DIM; ++i) {
 					vec[i] = m_component[i];
 			}
 		};
