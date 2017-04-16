@@ -1,42 +1,30 @@
 #pragma once
 #include <math.h>
 #include <type_traits>
+#include <cstdarg>
 
 namespace lasmath {
 	template<size_t DIM>
 	class Vector
 	{
 	public:
-		Vector() {
-			//HACK find a way to do this all at once. Memset?
-			for (size_t i = 0; i < DIM; ++i) {
-				m_component[i] = 0.0f;
-			}
-		};
+		Vector() : m_component{}
+		{};
 
-		// HACK find a more elegant method than this, maybe with variadic arguments?
-		// Double check requirements
-		Vector(float x, float y, float z=0.0f, float w=0.0f) {
-			m_component[0] = x;
-			m_component[1] = y;
-			if (DIM >= 3) {
-				m_component[2] = z;
-				if (DIM >= 4) {		//HACK I can see where this is going
-					m_component[3] = w;
-				}
-			}
-		};
+		template<typename... Args>
+		Vector(typename std::enable_if<(sizeof...(Args)+1 == DIM), float>::type x, Args... args) :m_component{ x,(float)args... } 
+		{};
 
 		~Vector()
 		{};
 
 		// return reference to vector component
 		float& operator[](size_t n) {
-			//TODO throw exception if n>1
+			//TODO throw exception if n>=DIM
 			return m_component[n];
 		};
 		const float& operator[](size_t n) const {
-			//TODO throw exception if n>1
+			//TODO throw exception if n>=DIM
 			return m_component[n];
 		};
 
@@ -46,11 +34,17 @@ namespace lasmath {
 			return m_component;
 		};
 
-		//// cast as Vector3 with z = 0
-		//explicit operator Vector3();
+		// cast as vector of different dimension
+		template<size_t D2>
+		explicit operator Vector<D2>() {
+			//TODO check this is right (vector returned by cast doesn't affect original vector)
+			//TODO test
+			Vector<D2> vec();
+			for (size_t i = 0; i < D2&&i<DIM; ++i) {
+					vec[i] = m_component[i];
+			}
+		};
 
-		//// cast as Vector4 with z=0 and w=0;
-		//explicit operator Vector4();
 
 		// Dot multiplication of two vectors
 		float dot(const Vector<DIM>& b) const {
@@ -74,17 +68,6 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 			}
 			return product;
 		};
-
-//		// Cross multiplication of two vectors
-//template <std::size_t D = DIM>
-//typename std::enable_if<D == 4, Vector<4>>::type Vector<4> cross(const Vector<4>& b) const {
-//			Vector<4> product;
-//			product[0] = m_component[1] * b[2] - m_component[2] * b[1];
-//			product[1] = m_component[2] * b[0] - m_component[0] * b[2];
-//			product[2] = m_component[0] * b[1] - m_component[1] * b[0];
-//			product[3] = 0.0f;
-//			return product;
-//		};
 
 
 		// Returns square of vector's magnitude
@@ -169,15 +152,21 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 	};
 
 	// Compare magnitudes of vectors
+	// These operators use magnitudeSquared as the exact difference doesn't need to be calculated
+
 	template<size_t DIM>
 	bool operator>(const Vector<DIM>& a, const Vector<DIM>& b) {
-		//TODO copy over commenting into these
 		return a.magnitudeSquared() > b.magnitudeSquared();
 	};
 	template<size_t DIM>
 	bool operator<(const Vector<DIM>& a, const Vector<DIM>& b) {
 		return b > a;
 	};
+
+	/*	The >= and <= operators refer to the magnitude being greater than or equal, rather
+		than the vectors. "a<b||a==b" is not the same as "a<=b", since if their magnitudes are
+		equal but directions are different, the first is false but the second is true
+	*/
 	template<size_t DIM>
 	bool operator>=(const Vector<DIM>& a, const Vector<DIM>& b) {
 		return !(b > a);
