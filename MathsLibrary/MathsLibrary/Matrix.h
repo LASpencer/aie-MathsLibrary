@@ -2,12 +2,252 @@
 #include "Vector.h"
 
 namespace lasmath {
+	template<size_t ORDER>
 	class Matrix
 	{
 	public:
-		Matrix();
-		~Matrix();
+		Matrix() :m_element{}
+		{};
+		template<typename... Args>
+		Matrix(typename std::enable_if<(sizeof...(Args)+1 == (ORDER*ORDER)), float>::type xx, Args... args) :m_element{ xx,(float)args... }
+		{};
+		~Matrix() 
+		{};
+
+		// Return reference to vector axis
+		Vector<ORDER>& operator[](size_t n) {
+		//TODO trhow exception if n > ORDER
+			return m_axis[n];
+		};
+		const Vector<ORDER>& operator[](size_t n) const {
+			//TODO trhow exception if n > ORDER
+			return m_axis[n];
+		};
+
+		// Cast matrix as an array of floats
+		explicit operator float*() {
+			// returns pointer to first element in union
+			return m_element[0];
+		};
+
+		// Vector transformation
+		Vector<ORDER> operator*(const Vector<ORDER>& v) const {
+			//TODO comment vector transformation
+			Vector<ORDER> transformed;
+			for (size_t i = 0; i < ORDER; ++i) {
+				for (size_t j = 0; j < ORDER; ++j) {
+					transformed[i] += m_element[j][i] * v[j];
+				}
+			}
+			return transformed;
+		};
+
+		// Matrix concatenation
+		Matrix<ORDER> operator*(const Matrix<ORDER>& m) const {
+			//TODO comment matrix transformation
+			Matrix<ORDER> product;
+			for (size_t i = 0; i < ORDER; ++i) {
+				// HACK for some reason the code below doesn't work
+				product[i] = (*this)*(m[i]);
+				// HACK workaround until I figure this out
+				/*for (size_t j = 0; j < ORDER; ++j) {
+					for (size_t k = 0; k < ORDER; ++k) {
+						product[i][j] += m_element[j][i] * m[i][j];
+					}
+				}*/
+			}
+			return product;
+		};
+
+		// Set matrix to identity matrix
+		void setIdentity() {
+			//TODO test
+			for (size_t i = 0; i < ORDER; ++i) {
+				m_axis[i] = {};
+				m_element[i][i] = 1;
+			}
+		}
+
+		// Set matrix to be a transformation matrix rotating by angle
+		// Only enabled for Matrix<2>
+		template<size_t O = ORDER>
+		typename std::enable_if<O == 2, void>::type setRotate(float angle) {
+			float xAxis[O] = { cosf(angle), sinf(angle) };
+			float yAxis[O] = { -sinf(angle), cosf(angle) };
+			//TODO rewrite this so it's just copying one array to another
+			for (size_t i = 0; i < O; ++i) {
+				m_element[0][i] = xAxis[i];
+				m_element[1][i] = yAxis[i];
+			}
+		};
+
+		// Set matrix to transformation matrix rotating around X axis by angle
+		// Only enabled for Matrix<3> and Matrix<4>
+		template<size_t O = ORDER>
+		typename std::enable_if<O == 3 || O == 4, void>::type setRotateX(float angle) {
+			// Set x axis as unit vector (1,0,0)
+			float xAxis[O] = { 1,0,0 };		//TODO test this actually sets 4th element to 0
+			// Set y and z axes as unit vectors rotated around x axis by angle
+			float yAxis[O] = { 0, cosf(angle), sinf(angle) };
+			float zAxis[O] = { 0, -sinf(angle), cosf(angle) };
+
+			// Set t axis as no translation for Matrix<4>
+			if (O == 4) {
+				float tAxis[4] = { 0,0,0,1 };
+				//HACK testing it works before rewriting
+				for (size_t i = 0; i < O; ++i) {
+					m_element[3][i] = tAxis[i];
+				}
+			}
+
+			//TODO rewrite this so it's just copying one array to another
+			for (size_t i = 0; i < O; ++i) {
+				m_element[0][i] = xAxis[i];
+				m_element[1][i] = yAxis[i];
+				m_element[2][i] = zAxis[i];
+			}
+		};
+
+		// Set matrix to transformation matrix rotating around Y axis by angle
+		// Only enabled for Matrix<3> and Matrix<4>
+		template<size_t O = ORDER>
+		typename std::enable_if<O == 3 || O == 4, void>::type setRotateY(float angle) {
+			// Set y axis as unit vector (0,1,0)
+			float yAxis[O] = { 0, 1, 0 };		//TODO test this actually sets 4th element to 0
+			// Set x and z axes as unit vectors rotated around y axis by given angle
+			float xAxis[O] = { cosf(angle), 0, -sinf(angle) };
+			float zAxis[O] = { sinf(angle), 0, cosf(angle) };
+			// Set t axis as no translation for Matrix<4>
+			if (O == 4) {
+				float tAxis[4] = { 0,0,0,1 };
+				//HACK testing it works before rewriting
+				for (size_t i = 0; i < O; ++i) {
+					m_element[3][i] = tAxis[i];
+				}
+			}
+
+			//TODO rewrite this so it's just copying one array to another
+			for (size_t i = 0; i < O; ++i) {
+				m_element[0][i] = xAxis[i];
+				m_element[1][i] = yAxis[i];
+				m_element[2][i] = zAxis[i];
+			}
+		};
+
+		// Set matrix to transformation matrix rotating around Z axis by angle
+		// Only enabled for Matrix<3> and Matrix<4>
+		template<size_t O = ORDER>
+		typename std::enable_if<O == 3 || O == 4, void>::type setRotateZ(float angle) {
+			// Set z axis as unit vector (0,0,1)
+			float zAxis[O] = { 0, 0, 1 };		//TODO test this actually sets 4th element to 0
+			// Set x and y axes as unit vectors rotated around z axis by given angle
+			float xAxis[O] = { cosf(angle), sinf(angle), 0 };
+			float yAxis[O] = { -sinf(angle), cosf(angle), 0 };
+			// Set t axis as no translation for Matrix<4>
+			if (O == 4) {
+				float tAxis[4] = { 0,0,0,1 };
+				//HACK testing it works before rewriting
+				for (size_t i = 0; i < O; ++i) {
+					m_element[3][i] = tAxis[i];
+				}
+			}
+
+			//TODO rewrite this so it's just copying one array to another
+			for (size_t i = 0; i < O; ++i) {
+				m_element[0][i] = xAxis[i];
+				m_element[1][i] = yAxis[i];
+				m_element[2][i] = zAxis[i];
+			}
+		};
+
+		// Set matrix to a transformation matrix rotating to orientation given by Euler angles
+		// Only enabled for Matrix<3> and Matrix<4>
+		template<size_t O = ORDER>
+		typename std::enable_if<O == 3 || O == 4, void>::type setEulerRotate(float alpha, float beta, float gamma) {
+			//z-x-z rotation
+			//TODO further commenting
+			float cosAlpha = cosf(alpha);
+			float sinAlpha = sinf(alpha);
+			float cosBeta = cosf(beta);
+			float sinBeta = sinf(beta);
+			float cosGamma = cosf(gamma);
+			float sinGamma = sinf(gamma);
+			//TODO test these set 4th element to 0
+			float xAxis[O] = { cosAlpha*cosGamma - cosBeta*sinAlpha*sinGamma, cosGamma*sinAlpha + cosAlpha*cosBeta*sinGamma, sinBeta*sinGamma };
+			float yAxis[O] = { -cosAlpha*sinGamma - cosBeta*cosGamma*sinAlpha, cosAlpha*cosBeta*cosGamma - sinAlpha*sinGamma, cosGamma*sinBeta };
+			float zAxis[O] = { sinAlpha*sinBeta, -cosAlpha*sinBeta, cosBeta };
+			// Set t axis as no translation for Matrix<4>
+			if (O == 4) {
+				float tAxis[4] = { 0,0,0,1 };
+				//HACK testing it works before rewriting
+				for (size_t i = 0; i < O; ++i) {
+					m_element[3][i] = tAxis[i];
+				}
+			}
+
+			//TODO rewrite this so it's just copying one array to another
+			for (size_t i = 0; i < O; ++i) {
+				m_element[0][i] = xAxis[i];
+				m_element[1][i] = yAxis[i];
+				m_element[2][i] = zAxis[i];
+			}
+		};
+
+		// Set matrix to a transformation matrix rotating to orientation given by Tait-Bryan angles
+		// Only enabled for Matrix<3> and Matrix<4>
+		template<size_t O = ORDER>
+		typename std::enable_if<O == 3 || O == 4, void>::type setTaitBryanRotate(float yaw, float pitch, float roll) {
+			//z-y-x rotation
+			//TODO further commenting
+			float cosYaw = cosf(yaw);
+			float sinYaw = sinf(yaw);
+			float cosPitch = cosf(pitch);
+			float sinPitch = sinf(pitch);
+			float cosRoll = cosf(roll);
+			float sinRoll = sinf(roll);
+			//TODO test these set 4th element to 0
+			float xAxis[O] = { cosYaw*cosPitch, sinYaw*cosPitch, -sinPitch };
+			float yAxis[O] = { cosYaw*sinPitch*sinRoll - sinYaw*cosRoll, cosYaw*cosRoll + sinYaw*sinPitch*sinRoll, cosPitch*sinRoll };
+			float zAxis[O] = { sinYaw*sinRoll + cosYaw*sinPitch*cosRoll, sinYaw*sinPitch*cosRoll - cosYaw*sinRoll, cosPitch*cosRoll };
+			// Set t axis as no translation for Matrix<4>
+			if (O == 4) {
+				float tAxis[4] = { 0,0,0,1 };
+					//HACK testing it works before rewriting
+				for (size_t i = 0; i < O; ++i) {
+					m_element[3][i] = tAxis[i];
+				}
+			}
+
+			//TODO rewrite this so it's just copying one array to another
+			for (size_t i = 0; i < O; ++i) {
+				m_element[0][i] = xAxis[i];
+				m_element[1][i] = yAxis[i];
+				m_element[2][i] = zAxis[i];
+			}
+		};
+
+		// Calculates inverse of this matrix and copies it to dest
+		// Returns true if matrix is invertable, returns false if singular or poorly conditioned
+		bool calculateInverse(Matrix<ORDER>& dest) {
+			Matrix<ORDER> inverse;
+			inverse.setIdentity();			//Start with an identity matrix
+			Matrix<ORDER> rowReduced = *this;		//Get copy of this matrix to row reduce
+			bool invertable = invertTransform<ORDER>((float*)rowReduced, (float*)inverse);
+			if (invertable) {
+				dest = inverse;
+			}
+			return invertable;
+		};
+		//TODO undo transformation
+		//TODO undo transformation on vector
+
+
 	protected:
+		union {
+			Vector<ORDER> m_axis[ORDER];
+			float m_element[ORDER][ORDER];
+		};
+
 		template<size_t ROWS>
 		// Compares float arrays and returns true if all members are equal
 		static bool areColumnsEqual(float* first, float* second) {
@@ -50,7 +290,7 @@ namespace lasmath {
 			}
 		}
 
-		template<size_t ORDER, size_t RESULT_COLUMNS>
+		template<size_t RESULT_COLUMNS>
 		/*	Performs inverse of transform on result to either undo a transformation or get inverse matrix
 			Returns true if inversion is possible, or false if transform is singular or too poorly conditioned
 			transform = ORDERxORDER column major transformation matrix, will be converted to reduced echelon form

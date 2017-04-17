@@ -59,7 +59,7 @@ namespace lasmath {
 		};
 
 // Cross multiplication of two vectors
-template <std::size_t D = DIM>
+template <size_t D = DIM>
 typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b) const {
 			Vector<D> product;
 			product[0] = m_component[1] * b[2] - m_component[2] * b[1];
