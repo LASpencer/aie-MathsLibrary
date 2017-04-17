@@ -242,6 +242,7 @@ namespace lasmath {
 			result = ORDERxRESULT_COLUMNS column major matrix, will be transformed by inverse of transform
 		*/
 		static bool invertTransform(float* transform, float* result) {
+			//TODO get rid of transform and just use copy of self, this is no longer a static function
 			// HACK this relies on a bunch of pointer arithmetic, since matrices aren't templated (yet?)
 			Vector<ORDER> emptyColumn;
 			bool matrixInvertable = true;
