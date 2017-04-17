@@ -7,5 +7,5 @@
 //#endif
 
 namespace lasmath {
-	typedef Vector<4> Vector4;
+	//typedef Vector<4> Vector4;
 }

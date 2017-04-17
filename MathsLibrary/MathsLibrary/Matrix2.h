@@ -11,5 +11,5 @@
 #include "Vector.h"
 
 namespace lasmath {
-	typedef Matrix<2> Matrix2;
+	//typedef Matrix<2> Matrix2;
 }

@@ -8,5 +8,5 @@
 
 
 namespace lasmath {
-	typedef Vector<2> Vector2;
+	//typedef Vector<2> Vector2;
 }

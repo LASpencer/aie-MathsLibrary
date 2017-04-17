@@ -7,5 +7,5 @@
 //#endif
 
 namespace lasmath {
-	typedef Vector<3> Vector3;
+	//typedef Vector<3> Vector3;
 }

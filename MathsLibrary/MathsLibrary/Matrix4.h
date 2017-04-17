@@ -3,5 +3,5 @@
 #include "Vector.h"
 
 namespace lasmath {
-	typedef Matrix<4> Matrix4;
+	//typedef Matrix<4> Matrix4;
 }

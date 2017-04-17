@@ -225,6 +225,11 @@
   <ItemGroup>
     <ClInclude Include="unittest.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MathsLibrary\MathsLibrary.vcxproj">
+      <Project>{a286ad52-0ce1-4494-9e62-6864ea1ac8c3}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

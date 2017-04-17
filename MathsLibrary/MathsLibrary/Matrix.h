@@ -301,4 +301,8 @@ namespace lasmath {
 		}
 	};
 
+	// typedefs for common matrix dimensions
+	typedef Matrix<2> Matrix2;
+	typedef Matrix<3> Matrix3;
+	typedef Matrix<4> Matrix4;
 }

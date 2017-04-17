@@ -119,6 +119,10 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 		float m_component[DIM];
 	};
 
+	// typedefs for common vector dimensions 
+	typedef Vector<2> Vector2;
+	typedef Vector<3> Vector3;
+	typedef Vector<4> Vector4;
 
 	// Arithmetic operators
 	template<size_t DIM>
