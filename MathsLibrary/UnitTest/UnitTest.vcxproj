@@ -174,7 +174,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>L:\Maths for Games\Assignments\Maths Library\MathsLibrary\MathsLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)MathsLibrary;L:\Maths for Games\Assignments\Maths Library\MathsLibrary\MathsLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -224,11 +224,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="unittest.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MathsLibrary\MathsLibrary.vcxproj">
-      <Project>{a286ad52-0ce1-4494-9e62-6864ea1ac8c3}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
