@@ -169,19 +169,6 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 		return b > a;
 	};
 
-	/*	The >= and <= operators refer to the magnitude being greater than or equal, rather
-		than the vectors. "a<b||a==b" is not the same as "a<=b", since if their magnitudes are
-		equal but directions are different, the first is false but the second is true
-	*/
-	template<size_t DIM>
-	bool operator>=(const Vector<DIM>& a, const Vector<DIM>& b) {
-		return !(b > a);
-	};
-	template<size_t DIM>
-	bool operator<=(const Vector<DIM>& a, const Vector<DIM>& b) {
-		return !(a > b);
-	};
-
 	// Vectors are equal if all components are equal
 	template<size_t DIM>
 	bool operator==(const Vector<DIM>& a, const Vector<DIM>& b) {

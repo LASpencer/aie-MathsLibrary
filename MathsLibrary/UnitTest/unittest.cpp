@@ -384,13 +384,11 @@ bool runUnitTests() {
 	b1 = (v3a < v3b);
 	b2 = (v3b < v3a);
 	b3 = (v3b > v3c);
-	b4 = (v3b >= v3c);
 	bool b5 = (v3c > v3a);
 
 	TEST("Vector3 comparison A", b1, b_true);
 	TEST("Vector3 comparison B", b2, b_false);
 	TEST("Vector3 comparison C", b3, b_false);
-	TEST("Vector3 comparison D", b4, b_true);
 	TEST("Vector3 comparison E", b5, b_true);
 
 	// Vector4 vector to vector comparison
@@ -402,13 +400,11 @@ bool runUnitTests() {
 	b1 = (v4a < v4b);
 	b2 = (v4b < v4a);
 	b3 = (v4b > v4c);
-	b4 = (v4b >= v4c);
 	b5 = (v4c > v4a);
 
 	TEST("Vector4 comparison A", b1, b_true);
 	TEST("Vector4 comparison B", b2, b_false);
 	TEST("Vector4 comparison C", b3, b_false);
-	TEST("Vector4 comparison D", b4, b_true);
 	TEST("Vector4 comparison E", b5, b_true);
 
 	// Vector2 vector equality
