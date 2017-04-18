@@ -176,25 +176,40 @@ namespace lasmath {
 		bool calculateInverse(Matrix<ORDER>& dest) {
 			Matrix<ORDER> inverse;
 			inverse.setIdentity();			//Start with an identity matrix
-			Matrix<ORDER> rowReduced = *this;		//Get copy of this matrix to row reduce
-			bool invertable = invertTransform<ORDER>((float*)rowReduced, (float*)inverse);
+			bool invertable = invertTransform<ORDER>((float*)inverse);
 			if (invertable) {
 				dest = inverse;
 			}
 			return invertable;
 		};
-		//TODO undo transformation
-		//TODO undo transformation on vector
 
+		//TODO undo transformation tests
+		bool transformByInverse(Matrix<ORDER>& target) {//TODO pick better names
+			Matrix<ORDER> tgtCopy = target;
+			bool invertable = invertTransform<ORDER>((float*)tgtCopy);
+			if (invertable) {
+				target = tgtCopy;
+			}
+			return invertable;
+		}
+		//TODO undo transformation on vector tests
+		bool transformByInverse(Vector<ORDER>& target) {//TODO pick better names
+			Vector<ORDER> tgtCopy = target;
+			bool invertable = invertTransform<1>((float*)tgtCopy);
+			if (invertable) {
+				target = tgtCopy;
+			}
+			return invertable;
+		}
 
 	protected:
 		union {
 			Vector<ORDER> m_axis[ORDER];
 			float m_element[ORDER][ORDER];
 		};
-
-		template<size_t ROWS>
+		
 		// Compares float arrays and returns true if all members are equal
+		template<size_t ROWS>
 		static bool areColumnsEqual(float* first, float* second) {
 			//TODO add tolerance if necessary
 			for (size_t i = 0; i < ROWS; ++i) {
@@ -205,8 +220,8 @@ namespace lasmath {
 			return true;
 		}
 
-		template<size_t ROWS, size_t COLUMNS>
 		// Swaps rows in matrix
+		template<size_t ROWS, size_t COLUMNS>
 		static void swapRows(float** theMatrix, size_t first, size_t second) {
 			//TODO argument exception if first or second > ROWS
 			// Swap values of first and second row for every column
@@ -217,8 +232,8 @@ namespace lasmath {
 			}
 		}
 
-		template<size_t ROWS, size_t COLUMNS>
 		// Multiplies all elements in row by factor
+		template<size_t ROWS, size_t COLUMNS>
 		static void multiplyRow(float** theMatrix, size_t row, float factor) {
 			//TODO argument exception if row > ROWS
 			for (size_t i = 0; i < COLUMNS; ++i) {
@@ -235,15 +250,17 @@ namespace lasmath {
 			}
 		}
 
-		template<size_t RESULT_COLUMNS>
 		/*	Performs inverse of transform on result to either undo a transformation or get inverse matrix
 			Returns true if inversion is possible, or false if transform is singular or too poorly conditioned
 			transform = ORDERxORDER column major transformation matrix, will be converted to reduced echelon form
 			result = ORDERxRESULT_COLUMNS column major matrix, will be transformed by inverse of transform
 		*/
-		static bool invertTransform(float* transform, float* result) {
+		template<size_t RESULT_COLUMNS>
+		bool invertTransform(float* result) {
 			//TODO get rid of transform and just use copy of self, this is no longer a static function
 			// HACK this relies on a bunch of pointer arithmetic, since matrices aren't templated (yet?)
+			Matrix<ORDER> rowReduce = *this;
+			float* transform = (float*)rowReduce;
 			Vector<ORDER> emptyColumn;
 			bool matrixInvertable = true;
 			// Create 2d arrays holding pointers to matrix elements, so [] operator rather than pointer arithmetic can be used
