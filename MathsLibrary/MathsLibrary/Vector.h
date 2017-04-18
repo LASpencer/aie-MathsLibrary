@@ -59,7 +59,7 @@ namespace lasmath {
 		};
 
 // Cross multiplication of two vectors
-template <std::size_t D = DIM>
+template <size_t D = DIM>
 typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b) const {
 			Vector<D> product;
 			product[0] = m_component[1] * b[2] - m_component[2] * b[1];
@@ -119,6 +119,10 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 		float m_component[DIM];
 	};
 
+	// typedefs for common vector dimensions 
+	typedef Vector<2> Vector2;
+	typedef Vector<3> Vector3;
+	typedef Vector<4> Vector4;
 
 	// Arithmetic operators
 	template<size_t DIM>
@@ -163,19 +167,6 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 	template<size_t DIM>
 	bool operator<(const Vector<DIM>& a, const Vector<DIM>& b) {
 		return b > a;
-	};
-
-	/*	The >= and <= operators refer to the magnitude being greater than or equal, rather
-		than the vectors. "a<b||a==b" is not the same as "a<=b", since if their magnitudes are
-		equal but directions are different, the first is false but the second is true
-	*/
-	template<size_t DIM>
-	bool operator>=(const Vector<DIM>& a, const Vector<DIM>& b) {
-		return !(b > a);
-	};
-	template<size_t DIM>
-	bool operator<=(const Vector<DIM>& a, const Vector<DIM>& b) {
-		return !(a > b);
 	};
 
 	// Vectors are equal if all components are equal

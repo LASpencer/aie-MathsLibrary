@@ -384,13 +384,11 @@ bool runUnitTests() {
 	b1 = (v3a < v3b);
 	b2 = (v3b < v3a);
 	b3 = (v3b > v3c);
-	b4 = (v3b >= v3c);
 	bool b5 = (v3c > v3a);
 
 	TEST("Vector3 comparison A", b1, b_true);
 	TEST("Vector3 comparison B", b2, b_false);
 	TEST("Vector3 comparison C", b3, b_false);
-	TEST("Vector3 comparison D", b4, b_true);
 	TEST("Vector3 comparison E", b5, b_true);
 
 	// Vector4 vector to vector comparison
@@ -402,13 +400,11 @@ bool runUnitTests() {
 	b1 = (v4a < v4b);
 	b2 = (v4b < v4a);
 	b3 = (v4b > v4c);
-	b4 = (v4b >= v4c);
 	b5 = (v4c > v4a);
 
 	TEST("Vector4 comparison A", b1, b_true);
 	TEST("Vector4 comparison B", b2, b_false);
 	TEST("Vector4 comparison C", b3, b_false);
-	TEST("Vector4 comparison D", b4, b_true);
 	TEST("Vector4 comparison E", b5, b_true);
 
 	// Vector2 vector equality
@@ -478,7 +474,16 @@ bool runUnitTests() {
 	TEST("Vector4 float comparison A", i1, greater);
 	TEST("Vector4 float comparison B", i2, less);
 
-	//TODO better euler angle tests
+	// Matrix set identity
+	m2.setIdentity();
+	m3a.setIdentity();
+	m4a.setIdentity();
+	TEST("Matrix2 Identity", m2, Matrix2(1, 0, 0, 1));
+	TEST("Matrix3 Identity", m3a, Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1));
+	TEST("Matrix4 Identity", m4a, Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1));
+
+	// Euler rotation
+	// TODO better euler angle tests?
 	
 	m3a.setEulerRotate(0.0f,3.98f,0.0f);
 	m4a.setEulerRotate (0.0f, 4.5f, 0.0f);
@@ -490,11 +495,16 @@ bool runUnitTests() {
 	TEST("Matrix3 Euler rotate X", m3a, Matrix3(1, 0, 0, 0, -0.668648f, -0.743579f, 0, 0.743579f, -0.668648f));
 	TEST("Matrix3 Euler rotate Y", m3b, Matrix3(-0.188077f, 0, -0.982154f, 0, 1, 0, 0.982154f, 0, -0.188077f));
 	TEST("Matrix3 Euler rotate Z", m3c, Matrix3(-0.981005f, -0.193984f, 0, 0.193984f, -0.981005f, 0, 0, 0, 1));
-	TEST("Matrix4 set rotate", m4a, Matrix4(1, 0, 0, 0, 0, -0.210796f, -0.97753f, 0, 0, 0.97753f, -0.210796f, 0, 0, 0, 0, 1));
-	TEST("Matrix4 set rotate", m4b, Matrix4(-0.856889f, 0, 0.515501f, 0, 0, 1, 0, 0, -0.515501f, 0, -0.856889f, 0, 0, 0, 0, 1));
-	TEST("Matrix4 set rotate", m4c, Matrix4(0.751806f, 0.659385f, 0, 0, -0.659385f, 0.751806f, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1));
+	TEST("Matrix4 Euler rotate X", m4a, Matrix4(1, 0, 0, 0, 0, -0.210796f, -0.97753f, 0, 0, 0.97753f, -0.210796f, 0, 0, 0, 0, 1));
+	TEST("Matrix4 Euler rotate Y", m4b, Matrix4(-0.856889f, 0, 0.515501f, 0, 0, 1, 0, 0, -0.515501f, 0, -0.856889f, 0, 0, 0, 0, 1));
+	TEST("Matrix4 Euler rotate Z", m4c, Matrix4(0.751806f, 0.659385f, 0, 0, -0.659385f, 0.751806f, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1));
 
-	//TODO tate-bryan tests
+	// Tate-bryan rotation
+	// TODO better tests?
+	m3a.setTaitBryanRotate(0.7853981f, 0.7853981f, 0.7853981f);
+	m4a.setTaitBryanRotate(0.7853981f, 0.7853981f, 0.7853981f);
+	TEST("Matrix3 Tate-Bryan rotation", m3a, Matrix3(0.5f, 0.5f, -0.7071068f, -0.1464466f, 0.8535534f, 0.5f, 0.8535534f, -0.1464466f, 0.5));
+	TEST("Matrix4 Tate-Bryan rotation", m4a, Matrix4(0.5f, 0.5f, -0.7071068f,0, -0.1464466f, 0.8535534f, 0.5f,0, 0.8535534f, -0.1464466f, 0.5,0,0,0,0,1));
 
 	// Matrix inversion
 	m2 = { 2, -3,5,-7 };
@@ -508,8 +518,11 @@ bool runUnitTests() {
 	//TODO matrix4 inversion test
 	m4a = { 2,0,2,0,3,4,-1,-4,3,3,-1,-3,1,-3,-3,2 };
 	m4a.calculateInverse(m4b);
-	TEST("Matrix4 inversion works", m4b, Matrix4(0.125f,-0.75f,1,0,-1,-5,6,-1,0.375f,0.75f,-1,0,-1,-6,7,-1))
+	TEST("Matrix4 inversion works", m4b, Matrix4(0.125f, -0.75f, 1, 0, -1, -5, 6, -1, 0.375f, 0.75f, -1, 0, -1, -6, 7, -1));
 	//TODO test it fails uninvertable matrices
-
+	m2 = { 0,4,0,3 };
+	b1 = m2.calculateInverse(m2b);
+	TEST("Matrix2 uninvertable matrix", b1, b_false);
+	TEST("Matrix2 inversion doesn't change matrix", m2, Matrix2(0,4,0,3));
 	return true;
 }
