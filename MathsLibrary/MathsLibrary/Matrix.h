@@ -17,11 +17,11 @@ namespace lasmath {
 
 		// Return reference to vector axis
 		Vector<ORDER>& operator[](size_t n) {
-		//TODO trhow exception if n > ORDER
+		//TODO throw exception if n > ORDER
 			return m_axis[n];
 		};
 		const Vector<ORDER>& operator[](size_t n) const {
-			//TODO trhow exception if n > ORDER
+			//TODO throw exception if n > ORDER
 			return m_axis[n];
 		};
 
