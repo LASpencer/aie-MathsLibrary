@@ -109,11 +109,6 @@ namespace lasmath {
 			
 			// Set t axis as no translation for Matrix<4>
 			if (ORD == 4) {
-				//float tAxis[4] = { 0,0,0,1 };
-				////HACK testing it works before rewriting
-				//for (size_t i = 0; i < O; ++i) {
-				//	m_element[3][i] = tAxis[i];
-				//}
 				rotate[3][3] = 1;
 			}
 
