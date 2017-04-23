@@ -93,10 +93,14 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 		// Converts vector to a unit vector with same direction
 		void normalise() {
 			// Divide all components by magnitude
-			float magReciprocal = 1.0f / magnitude();
-			for (size_t i = 0; i < DIM; ++i) {
-				m_component[i] *= magReciprocal;
+			float mag = magnitude();
+			if (mag != 0) {
+				float magReciprocal = 1.0f / mag;
+				for (size_t i = 0; i < DIM; ++i) {
+					m_component[i] *= magReciprocal;
+				}
 			}
+			// TODO else throw exception?
 		};
 
 		/* Compares magnitude of vector to value given.
