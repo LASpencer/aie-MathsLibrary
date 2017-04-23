@@ -343,6 +343,24 @@ bool runUnitTests() {
 
 	std::cout << "Basic requirements passed.\n";
 
+	bool b_true = true;
+	bool b_false = false;
+
+	//Zero vector normalization
+	v2a = Vector2();
+	v2b = Vector2(1, 1);
+	v3a = Vector3();
+	v4a = Vector4();
+	bool b1 = v2a.normalise();
+	bool b2 = v3a.normalise();
+	bool b3 = v4a.normalise();
+	bool b4 = v2b.normalise();
+
+	TEST("Vector2 zero normalization", b1, b_false);
+	TEST("Vector3 zero normalization", b2, b_false);
+	TEST("Vector4 zero normalization", b3, b_false);
+	TEST("Vector2 valid normalization true", b4, b_true);
+
 	// Vector2 magnitude squared
 	v2a = Vector2(3.0f, 4.0f);
 	mag2 = v2a.magnitudeSquared();
@@ -363,13 +381,10 @@ bool runUnitTests() {
 	v2b = Vector2(-2.0f, 5.0f);
 	v2c = Vector2(4.0f, -4.0f);
 
-	bool b1 = (v2a < v2b);
-	bool b2 = (v2b < v2a);
-	bool b3 = (v2b > v2c);
-	bool b4 = (v2c > v2a);
-
-	bool b_true = true;
-	bool b_false = false;
+	b1 = (v2a < v2b);
+	b2 = (v2b < v2a);
+	b3 = (v2b > v2c);
+	b4 = (v2c > v2a);
 
 	TEST("Vector2 comparison A", b1, b_true);
 	TEST("Vector2 comparison B", b2, b_false);

@@ -91,16 +91,20 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 		};
 
 		// Converts vector to a unit vector with same direction
-		void normalise() {
+		bool normalise() {
 			// Divide all components by magnitude
 			float mag = magnitude();
-			if (mag != 0) {
+			// TODO check vector isn't infinite or NAN?
+			if (mag != 0.0f) {
 				float magReciprocal = 1.0f / mag;
 				for (size_t i = 0; i < DIM; ++i) {
 					m_component[i] *= magReciprocal;
 				}
+				return true;
 			}
-			// TODO else throw exception?
+			else {
+				return false;
+			}
 		};
 
 		/* Compares magnitude of vector to value given.
@@ -118,6 +122,36 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 				return 0;
 			}
 		};
+
+		// Returns true if all components are 0.0f
+		bool isZeroVector() const {
+			for (size_t i = 0; i < DIM; ++i) {
+				if (m_component[i] != 0.0f) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		// Returns true if any component is infinite
+		bool isInfinite() const {
+			for (size_t i = 0; i < DIM; ++i) {
+				if (isinf(m_component[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		// Returns true if any component is not a number
+		bool isNAN() const {
+			for (size_t i = 0; i < DIM; ++i) {
+				if (isnan(m_component[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
 
 	protected:
 		float m_component[DIM];
