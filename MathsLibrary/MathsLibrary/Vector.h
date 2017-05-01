@@ -44,7 +44,7 @@ namespace lasmath {
 
 		// cast as vector of different dimension
 		template<size_t D>
-		explicit operator Vector<D>()
+		explicit operator Vector<D>() const
 		{
 			Vector<D> vec;
 			for (size_t i = 0; i < D&&i<DIM; ++i) {
