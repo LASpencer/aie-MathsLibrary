@@ -489,6 +489,15 @@ bool runUnitTests() {
 	TEST("Vector4 float comparison A", i1, greater);
 	TEST("Vector4 float comparison B", i2, less);
 
+	// Vector3 casting
+	//TODO more casts?
+	v3a = Vector3(3.0f, 4.0f, 5.0f);
+	v2a = (Vector2)v3a;
+	v4a = (Vector4)v3a;
+	
+	TEST("Vector3 cast as Vector2", v2a, Vector2(3.0f, 4.0f));
+	TEST("Vector3 cast as Vector4", v4a, Vector4(3.0f, 4.0f, 5.0f, 0.0f));
+
 	// Matrix set identity
 	m2.setIdentity();
 	m3a.setIdentity();

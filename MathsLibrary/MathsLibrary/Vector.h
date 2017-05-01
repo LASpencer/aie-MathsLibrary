@@ -22,16 +22,17 @@ namespace lasmath {
 		~Vector()
 		{};
 
+		// Make all vectors friends to each other
+		template<size_t D> friend class Vector;
+
 		// return reference to vector component
 		float& operator[](size_t n) {
-			//TODO throw exception if n>=DIM
 			if (n >= DIM) {
 				throw std::range_error("Vector component out of range");
 			}
 			return m_component[n];
 		};
 		const float& operator[](size_t n) const {
-			//TODO throw exception if n>=DIM
 			if (n >= DIM) {
 				throw std::range_error("Vector component out of range");
 			}
@@ -46,15 +47,16 @@ namespace lasmath {
 
 		// cast as vector of different dimension
 		template<size_t D>
-		explicit operator Vector<D>() {
-			//TODO check this is right (vector returned by cast doesn't affect original vector)
-			//TODO test
-			Vector<D> vec();
+		explicit operator Vector<D>()
+		{
+			Vector<D> vec;
 			for (size_t i = 0; i < D&&i<DIM; ++i) {
-					vec[i] = m_component[i];
+				vec[i] = m_component[i];
 			}
+			return vec;
 		};
 
+		
 
 		// Dot multiplication of two vectors
 		float dot(const Vector<DIM>& b) const {

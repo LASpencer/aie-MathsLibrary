@@ -61,10 +61,9 @@ namespace lasmath {
 
 		// Set matrix to identity matrix
 		void setIdentity() {
-			//TODO comment
 			for (size_t i = 0; i < ORDER; ++i) {
-				m_axis[i] = {};
-				m_element[i][i] = 1;
+				m_axis[i] = {};					// Initialize column with 0 values
+				m_element[i][i] = 1;			// Set diagonal element to 1
 			}
 		};
 
@@ -185,7 +184,7 @@ namespace lasmath {
 		};
 
 		//TODO undo transformation tests
-		bool transformByInverse(Matrix<ORDER>& target) {//TODO pick better names
+		bool transformByInverse(Matrix<ORDER>& target) {
 			Matrix<ORDER> tgtCopy = target;
 			bool invertable = invertTransform<ORDER>((float*)tgtCopy);
 			if (invertable) {
@@ -194,7 +193,7 @@ namespace lasmath {
 			return invertable;
 		}
 		//TODO undo transformation on vector tests
-		bool transformByInverse(Vector<ORDER>& target) {//TODO pick better names
+		bool transformByInverse(Vector<ORDER>& target) {
 			Vector<ORDER> tgtCopy = target;
 			bool invertable = invertTransform<1>((float*)tgtCopy);
 			if (invertable) {
@@ -224,7 +223,12 @@ namespace lasmath {
 		// Swaps rows in matrix
 		template<size_t ROWS, size_t COLUMNS>
 		static void swapRows(float** theMatrix, size_t first, size_t second) {
-			//TODO argument exception if first or second > ROWS
+			if (first >= ROWS) {
+				throw std::range_error("Argument 'first' out of range");
+			}
+			if (second >= ROWS) {
+				throw std::range_error("Argument 'second' out of range");
+			}
 			// Swap values of first and second row for every column
 			for (size_t i = 0; i < COLUMNS; ++i) {
 				float temp = theMatrix[i][first];
@@ -236,7 +240,9 @@ namespace lasmath {
 		// Multiplies all elements in row by factor
 		template<size_t ROWS, size_t COLUMNS>
 		static void multiplyRow(float** theMatrix, size_t row, float factor) {
-			//TODO argument exception if row > ROWS
+			if (row >= ROWS) {
+				throw std::range_error("Argument 'row' out of range");
+			}
 			for (size_t i = 0; i < COLUMNS; ++i) {
 				theMatrix[i][row] *= factor;
 			}
@@ -245,7 +251,12 @@ namespace lasmath {
 		// Adds source row multiplied by factor to target row
 		template<size_t ROWS, size_t COLUMNS>
 		static void addRow(float** theMatrix, size_t sourceRow, size_t targetRow, float factor) {
-			//TODO argument exception if sourceRow or targetRow > ROWS
+			if (sourceRow >= ROWS) {
+				throw std::range_error("Argument 'sourceRow' out of range");
+			}
+			if (targetRow >= ROWS) {
+				throw std::range_error("Argument 'targetRow' out of range");
+			}
 			for (size_t i = 0; i < COLUMNS; ++i) {
 				theMatrix[i][targetRow] += factor * theMatrix[i][sourceRow];
 			}
@@ -258,7 +269,6 @@ namespace lasmath {
 		*/
 		template<size_t RESULT_COLUMNS>
 		bool invertTransform(float* result) {
-			//TODO get rid of transform and just use copy of self, this is no longer a static function
 			// HACK this relies on a bunch of pointer arithmetic, since matrices aren't templated (yet?)
 			Matrix<ORDER> rowReduce = *this;
 			float* transform = (float*)rowReduce;
