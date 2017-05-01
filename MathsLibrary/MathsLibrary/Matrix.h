@@ -1,5 +1,7 @@
 #pragma once
 #include <algorithm>
+#include <stdexcept>
+#include <string>
 #include "Vector.h"
 
 namespace lasmath {
@@ -17,11 +19,15 @@ namespace lasmath {
 
 		// Return reference to vector axis
 		Vector<ORDER>& operator[](size_t n) {
-		//TODO throw exception if n > ORDER
+			if (n >= ORDER) {
+				throw std::range_error("Vector component out of range");
+			}
 			return m_axis[n];
 		};
 		const Vector<ORDER>& operator[](size_t n) const {
-			//TODO throw exception if n > ORDER
+			if (n >= ORDER) {
+				throw std::range_error("Vector component out of range");
+			}
 			return m_axis[n];
 		};
 

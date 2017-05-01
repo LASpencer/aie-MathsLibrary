@@ -2,6 +2,8 @@
 #include <math.h>
 #include <type_traits>
 #include <cstdarg>
+#include <stdexcept>
+#include <string>
 
 namespace lasmath {
 	template<size_t DIM>
@@ -23,10 +25,16 @@ namespace lasmath {
 		// return reference to vector component
 		float& operator[](size_t n) {
 			//TODO throw exception if n>=DIM
+			if (n >= DIM) {
+				throw std::range_error("Vector component out of range");
+			}
 			return m_component[n];
 		};
 		const float& operator[](size_t n) const {
 			//TODO throw exception if n>=DIM
+			if (n >= DIM) {
+				throw std::range_error("Vector component out of range");
+			}
 			return m_component[n];
 		};
 
@@ -94,8 +102,7 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 		bool normalise() {
 			// Divide all components by magnitude
 			float mag = magnitude();
-			// TODO check vector isn't infinite or NAN?
-			if (mag != 0.0f) {
+			if (mag != 0.0f && !isinf(mag) && !isnan(mag)) {
 				float magReciprocal = 1.0f / mag;
 				for (size_t i = 0; i < DIM; ++i) {
 					m_component[i] *= magReciprocal;
