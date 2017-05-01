@@ -22,9 +22,6 @@ namespace lasmath {
 		~Vector()
 		{};
 
-		// Make all vectors friends to each other
-		template<size_t D> friend class Vector;
-
 		// return reference to vector component
 		float& operator[](size_t n) {
 			if (n >= DIM) {
@@ -75,9 +72,7 @@ typename std::enable_if<D == 3||D==4, Vector<D>>::type cross(const Vector<D>& b)
 			product[0] = m_component[1] * b[2] - m_component[2] * b[1];
 			product[1] = m_component[2] * b[0] - m_component[0] * b[2];
 			product[2] = m_component[0] * b[1] - m_component[1] * b[0];
-			if (D == 4) {					//Might be superfluous?
-				product[3] = 0.0f;			//HACK try removing this
-			}
+			// m_component[3] remains 0 in Vector<4>
 			return product;
 		};
 

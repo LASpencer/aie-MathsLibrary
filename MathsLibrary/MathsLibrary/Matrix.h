@@ -39,7 +39,6 @@ namespace lasmath {
 
 		// Vector transformation
 		Vector<ORDER> operator*(const Vector<ORDER>& v) const {
-			//TODO comment vector transformation
 			Vector<ORDER> transformed;
 			for (size_t i = 0; i < ORDER; ++i) {
 				for (size_t j = 0; j < ORDER; ++j) {
@@ -49,11 +48,11 @@ namespace lasmath {
 			return transformed;
 		};
 
-		// Matrix concatenation
+		// Matrix transformation
 		Matrix<ORDER> operator*(const Matrix<ORDER>& m) const {
-			//TODO comment matrix transformation
 			Matrix<ORDER> product;
 			for (size_t i = 0; i < ORDER; ++i) {
+				// Multiply each column of other matrix by this matrix
 				product[i] = (*this)*(m[i]);
 			}
 			return product;
@@ -126,7 +125,7 @@ namespace lasmath {
 		template<size_t ORD = ORDER>
 		typename std::enable_if<ORD == 3 || ORD == 4, void>::type setEulerRotate(float alpha, float beta, float gamma) {
 			//z-x-z rotation
-			//TODO further commenting
+			// Calculate sine and cosine of each angle
 			float cosAlpha = cosf(alpha);
 			float sinAlpha = sinf(alpha);
 			float cosBeta = cosf(beta);
@@ -134,6 +133,7 @@ namespace lasmath {
 			float cosGamma = cosf(gamma);
 			float sinGamma = sinf(gamma);
 
+			// Create 2D array for matrix rotating to given orientation
 			float rotate[ORD][ORD] = { { cosAlpha*cosGamma - cosBeta*sinAlpha*sinGamma, cosGamma*sinAlpha + cosAlpha*cosBeta*sinGamma, sinBeta*sinGamma },
 										{ -cosAlpha*sinGamma - cosBeta*cosGamma*sinAlpha, cosAlpha*cosBeta*cosGamma - sinAlpha*sinGamma, cosGamma*sinBeta },
 										{ sinAlpha*sinBeta, -cosAlpha*sinBeta, cosBeta } };
@@ -151,7 +151,7 @@ namespace lasmath {
 		template<size_t ORD = ORDER>
 		typename std::enable_if<ORD == 3 || ORD == 4, void>::type setTaitBryanRotate(float yaw, float pitch, float roll) {
 			//z-y-x rotation
-			//TODO further commenting
+			// Calculate sine and cosine of each angle
 			float cosYaw = cosf(yaw);
 			float sinYaw = sinf(yaw);
 			float cosPitch = cosf(pitch);
@@ -159,6 +159,7 @@ namespace lasmath {
 			float cosRoll = cosf(roll);
 			float sinRoll = sinf(roll);
 
+			// Create 2D array for matrix rotating to given orientation
 			float rotate[ORD][ORD] = { { cosYaw*cosPitch, sinYaw*cosPitch, -sinPitch },
 										{ cosYaw*sinPitch*sinRoll - sinYaw*cosRoll, cosYaw*cosRoll + sinYaw*sinPitch*sinRoll, cosPitch*sinRoll },
 										{ sinYaw*sinRoll + cosYaw*sinPitch*cosRoll, sinYaw*sinPitch*cosRoll - cosYaw*sinRoll, cosPitch*cosRoll } };
@@ -183,20 +184,29 @@ namespace lasmath {
 			return invertable;
 		};
 
-		//TODO undo transformation tests
+		// Transforms target matrix by the inverse of this matrix
+		// Returns true if this matrix is invertable, returns false if singular or poorly conditioned
 		bool transformByInverse(Matrix<ORDER>& target) {
+			// Create a copy of target to transform
 			Matrix<ORDER> tgtCopy = target;
+			// Transform copy
 			bool invertable = invertTransform<ORDER>((float*)tgtCopy);
 			if (invertable) {
+				// If inversion was successful, replace target with transformed matrix
 				target = tgtCopy;
 			}
 			return invertable;
 		}
-		//TODO undo transformation on vector tests
+
+		// Transforms target vector by the inverse of this matrix
+		// Returns true if this matrix is invertable, returns false if singular or poorly conditioned
 		bool transformByInverse(Vector<ORDER>& target) {
+			// Create a copy of target to transform
 			Vector<ORDER> tgtCopy = target;
+			// Transform copy
 			bool invertable = invertTransform<1>((float*)tgtCopy);
 			if (invertable) {
+				// If inversion was successful, replace target with transformed vector
 				target = tgtCopy;
 			}
 			return invertable;
@@ -269,7 +279,7 @@ namespace lasmath {
 		*/
 		template<size_t RESULT_COLUMNS>
 		bool invertTransform(float* result) {
-			// HACK this relies on a bunch of pointer arithmetic, since matrices aren't templated (yet?)
+			// Create copy of this matrix and cast it as an array of floats
 			Matrix<ORDER> rowReduce = *this;
 			float* transform = (float*)rowReduce;
 			Vector<ORDER> emptyColumn;
