@@ -175,7 +175,7 @@ namespace lasmath {
 
 		// Calculates Euler angles for orientation of matrix
 		template<size_t ORD = ORDER>
-		typename std::enable_if<ORD == 3 || ORD == 4, std::tuple<float, float, float>>::type getEulerOrientation() {
+		typename std::enable_if<ORD == 3 || ORD == 4, std::tuple<float, float, float, bool>>::type getEulerOrientation() {
 			float alpha, beta, gamma;
 			// Get copies of X, Y and Z axis
 			Vector<ORD> xAxis = m_axis[0];
@@ -186,13 +186,13 @@ namespace lasmath {
 				yAxis[3] = 0;
 				zAxis[3] = 0;
 			}
-			// If axes are not independent (dot products aren't zero), throw exception
+			// If axes are not independent (dot products aren't zero), return false
 			if (abs(xAxis.dot(yAxis)) >= FLT_EPSILON || abs(yAxis.dot(zAxis)) >= FLT_EPSILON || abs(zAxis.dot(xAxis)) >= FLT_EPSILON) {	//HACK this could break down with small values
-				throw std::domain_error("Axes are not independent");
+				return std::make_tuple(0.0f, 0.0f, 0.0f, false);
 			}
 			// Normalise axes
 			if (!(xAxis.normalise() && yAxis.normalise() && zAxis.normalise())) {
-				throw std::domain_error("An axis could not be normalised");
+				return std::make_tuple(0.0f, 0.0f, 0.0f, false);
 			}
 			// Calculate values
 			beta = acosf(zAxis[2]);		//Assume beta is between 0 and pi
@@ -212,12 +212,12 @@ namespace lasmath {
 				gamma = atan2f(xAxis[2] / sinBeta, yAxis[2] / sinBeta);
 			}
 			// return tuple containing angles
-			return std::make_tuple(alpha, beta, gamma);
+			return std::make_tuple(alpha, beta, gamma, true);
 		}
 
 		// Calculates Tait-Bryan angles for orientation of matrix
 		template<size_t ORD = ORDER>
-		typename std::enable_if<ORD == 3 || ORD == 4, std::tuple<float, float, float>>::type getTaitBryanOrientation() {
+		typename std::enable_if<ORD == 3 || ORD == 4, std::tuple<float, float, float, bool>>::type getTaitBryanOrientation() {
 			float yaw, pitch, roll;
 			// Get copies of X, Y and Z axis
 			Vector<ORD> xAxis = m_axis[0];
@@ -228,13 +228,13 @@ namespace lasmath {
 				yAxis[3] = 0;
 				zAxis[3] = 0;
 			}
-			// If axes are not independent (dot products aren't zero), throw exception
+			// If axes are not independent (dot products aren't zero), return false
 			if (abs(xAxis.dot(yAxis)) >= FLT_EPSILON || abs(yAxis.dot(zAxis)) >= FLT_EPSILON || abs(zAxis.dot(xAxis)) >= FLT_EPSILON) {	//HACK this could break down with small values
-				throw std::domain_error("Axes are not independent");
+				return std::make_tuple(0.0f, 0.0f, 0.0f, false);
 			}
 			// Normalise axes
 			if (!(xAxis.normalise() && yAxis.normalise() && zAxis.normalise())) {
-				throw std::domain_error("An axis could not be normalised");
+				return std::make_tuple(0.0f, 0.0f, 0.0f, false);
 			}
 			// Calculate values
 			pitch = asinf(-xAxis[2]);	// Assume pitch is between -pi and pi
@@ -256,7 +256,7 @@ namespace lasmath {
 				// sin(roll) = yAxis[2]/cos(pitch)
 				roll = atan2f(yAxis[2] / cosPitch, zAxis[2]/cosPitch);
 			}
-			return std::make_tuple(yaw, pitch, roll);
+			return std::make_tuple(yaw, pitch, roll, true);
 		}
 
 		// Calculates inverse of this matrix and copies it to dest

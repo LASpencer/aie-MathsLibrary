@@ -42,6 +42,32 @@ namespace lasmath {
 			return m_component;
 		};
 
+
+		//TODO comment compound operators
+		Vector<DIM> operator+=(const Vector<DIM>& b) {
+			//TODO tests
+			for (size_t i = 0; i < DIM; ++i) {
+				this->m_component[i] += b[i];
+			}
+			return *this;
+		}
+
+		Vector<DIM> operator-=(const Vector<DIM>& b) {
+			//TODO tests
+			for (size_t i = 0; i < DIM; ++i) {
+				this->m_component[i] -= b[i];
+			}
+			return *this;
+		}
+
+		Vector<DIM> operator*=(float f) {
+			//TODO tests
+			for (size_t i = 0; i < DIM; ++i) {
+				this->m_component[i] *= f;
+			}
+			return *this;
+		}
+
 		// cast as vector of different dimension
 		template<size_t D>
 		explicit operator Vector<D>()

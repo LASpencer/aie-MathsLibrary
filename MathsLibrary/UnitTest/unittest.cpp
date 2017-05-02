@@ -567,7 +567,7 @@ bool runUnitTests() {
 	m3b.setRotateY(1.57079632679f);
 	m3c.setRotateX(0.4f);
 	m3d = m3a * m3b * m3c;
-	std::tuple<float, float, float> eulerAngles = m3d.getTaitBryanOrientation();
+	std::tuple<float, float, float, bool> eulerAngles = m3d.getTaitBryanOrientation();
 	TEST("Matrix3 getTaitBryan locked yaw", std::get<0>(eulerAngles), 1.1f);
 	TEST("Matrix3 getTaitBryan locked pitch", std::get<1>(eulerAngles), 1.57079632679f);
 	TEST("Matrix3 getTaitBryan locked roll", std::get<2>(eulerAngles), 0.0f);
