@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include "Vector.h"
 
 namespace lasmath {
@@ -171,6 +172,90 @@ namespace lasmath {
 			// Copy rotation matrix to elements
 			std::copy(&rotate[0][0], &rotate[0][0] + (ORD*ORD), &m_element[0][0]);
 		};
+
+		//TODO description
+		template<size_t ORD = ORDER>
+		typename std::enable_if<ORD == 3 || ORD == 4, std::tuple<float, float, float>>::type getEulerOrientation() {
+			//TODO tests
+			float alpha, beta, gamma;
+			// Get copies of X, Y and Z axis
+			Vector<ORD> xAxis = m_axis[0];
+			Vector<ORD> yAxis = m_axis[1];
+			Vector<ORD> zAxis = m_axis[2];
+			// TODO if axes aren't independent (dot product between each == 0) function fails (return error code? throw exception?)
+			if (ORD = 4) {
+				xAxis[3] = 0;
+				yAxis[3] = 0;
+				zAxis[3] = 0;
+			}
+			// Normalise axes
+			xAxis.normalise();
+			yAxis.normalise();
+			zAxis.normalise();
+			//TODO throw exception if any fail
+			// Calculate values
+			beta = acosf(zAxis[2]);		//Assume beta is between 0 and pi
+			float sinBeta = sinf(beta);
+			if (sinBeta == 0) {
+				// If sinBeta is 0, beta must be 0 or pi, so alpha and gamma are in the same plane
+				// Set gamma to 0
+				gamma = 0;
+				// sin(alpha) = xAxis[1]
+				// cos(alpha) - cos(beta)*sin(alpha) = xAxis[0], -cos(beta)*sin(alpha) = yAxis[0]
+				// therefore cos(alpha) = xAxis[0] - yAxis[0]
+				alpha = atan2f(xAxis[1], (xAxis[0] - yAxis[0]));
+			} else{
+				// sin(alpha) = zAxis[0]/sin(beta), cos(alpha) = -(zAxis[1]/sin(beta))
+				alpha = atan2f(zAxis[0] / sinBeta, -(zAxis[1] / sinBeta));
+				// sin(gamma) = xAxis[2]/sin(beta), cos(gamma) = yAxis[2]/sin(beta)
+				gamma = atan2f(xAxis[2] / sinBeta, yAxis[2] / sinBeta);
+			}
+			// return tuple containing angles
+			return std::make_tuple(alpha, beta, gamma);
+		}
+
+		// TODO description
+		template<size_t ORD = ORDER>
+		typename std::enable_if<ORD == 3 || ORD == 4, std::tuple<float, float, float>>::type getTaitBryanOrientation() {
+			//TODO tests
+			float yaw, pitch, roll;
+			// Get copies of X, Y and Z axis
+			Vector<ORD> xAxis = m_axis[0];
+			Vector<ORD> yAxis = m_axis[1];
+			Vector<ORD> zAxis = m_axis[2];
+			// TODO if axes aren't independent (dot product between each == 0) function fails (return error code? throw exception?)
+			if (ORD = 4) {
+				xAxis[3] = 0;
+				yAxis[3] = 0;
+				zAxis[3] = 0;
+			}
+			// Normalise axes
+			xAxis.normalise();
+			yAxis.normalise();
+			zAxis.normalise();
+			//TODO throw exception if any fail
+			// Calculate values
+			pitch = asinf(-xAxis[2]);	// Assume pitch is between -pi and pi
+			cosPitch = cosf(pitch);
+			if (cosPitch == 0) {
+				// If cosPitch is 0, pitch is pi or -pi so yaw and roll are gimbal locked
+				// Set roll to 0
+				roll = 0;
+				// yAxis[0] = cos(yaw)*sin(pitch)*sin(roll) - sin(yaw)*cos(roll) = cos(yaw)*sin(pitch)*0 - sin(yaw)*1
+				// sin(yaw) = -yAxis[0]
+				// yAxis[1] = cos(yaw)*cos(roll) + sin(yaw)*sin(pitch)*sin(roll) = cos(yaw)*1 + sin(yaw)*sin(pitch)*0
+				// cos(yaw) = yAxis[1]
+				yaw = atan2f(-yAxis[0], yAxis[1]);
+			} else{
+				// cos(yaw) = xAxis[0]/cos(pitch)
+				// sin(yaw) = xAxis[1]/cos(pitch)
+				yaw = atan2f(xAxis[1] / cosPitch, xAxis[0] / cosPitch);
+				// cos(roll) = zAxis[2]/cos(pitch)
+				// sin(roll) = yAxis[2]/cos(pitch)
+				roll = atan2f(yAxis[2] / cosPitch, zAxis[2]/cosPitch);
+			}
+			return std::make_tuple(yaw, pitch, roll);
+		}
 
 		// Calculates inverse of this matrix and copies it to dest
 		// Returns true if matrix is invertable, returns false if singular or poorly conditioned
