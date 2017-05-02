@@ -562,5 +562,41 @@ bool runUnitTests() {
 	TEST("Matrix2 inverse on vector", v2a, v2c);
 	//TODO higher order tests
 
+	//Matrix to euler angle
+	m3a.setRotateZ(1.5f);
+	m3b.setRotateY(1.57079632679f);
+	m3c.setRotateX(0.4f);
+	m3d = m3a * m3b * m3c;
+	std::tuple<float, float, float> eulerAngles = m3d.getTaitBryanOrientation();
+	TEST("Matrix3 getTaitBryan locked yaw", std::get<0>(eulerAngles), 1.1f);
+	TEST("Matrix3 getTaitBryan locked pitch", std::get<1>(eulerAngles), 1.57079632679f);
+	TEST("Matrix3 getTaitBryan locked roll", std::get<2>(eulerAngles), 0.0f);
+
+	m3a.setRotateZ(1.5f);
+	m3b.setRotateY(1.0f);
+	m3c.setRotateX(0.4f);
+	m3d = m3a * m3b * m3c;
+	eulerAngles = m3d.getTaitBryanOrientation();
+	TEST("Matrix3 getTaitBryan 1 yaw", std::get<0>(eulerAngles), 1.5f);
+	TEST("Matrix3 getTaitBryan 1 pitch", std::get<1>(eulerAngles), 1.0f);
+	TEST("Matrix3 getTaitBryan 1 roll", std::get<2>(eulerAngles), 0.4f);
+
+	m3a.setRotateZ(0.4f);
+	m3b.setRotateX(1.1f);
+	m3c.setRotateZ(0.7f);
+	m3d = m3a * m3b * m3c;
+	eulerAngles = m3d.getEulerOrientation();
+	TEST("Matrix3 getEuler 1 alpha", std::get<0>(eulerAngles), 0.4f);
+	TEST("Matrix3 getEuler 1 beta", std::get<1>(eulerAngles), 1.1f);
+	TEST("Matrix3 getEuler 1 gamma", std::get<2>(eulerAngles), 0.7f);
+
+	m3a.setRotateZ(0.8f);
+	m3b.setRotateX(3.14159265f);
+	m3c.setRotateZ(0.1f);
+	m3d = m3a * m3b * m3c;
+	eulerAngles = m3d.getEulerOrientation();
+	TEST("Matrix3 getEuler locked alpha", std::get<0>(eulerAngles), 0.7f);
+	TEST("Matrix3 getEuler locked beta", std::get<1>(eulerAngles), 3.14159265f);
+	TEST("Matrix3 getEuler locked gamma", std::get<2>(eulerAngles), 0.0f);
 	return true;
 }
