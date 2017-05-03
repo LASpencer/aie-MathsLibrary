@@ -308,9 +308,9 @@ namespace lasmath {
 		// Compares float arrays and returns true if all members are equal
 		template<size_t ROWS>
 		static bool areColumnsEqual(float* first, float* second) {
-			//TODO add tolerance if necessary
 			for (size_t i = 0; i < ROWS; ++i) {
-				if (first[i] != second[i]) {
+				// Check if each member of first is within tolerance of corresponding member of second
+				if (abs(first[i] - second[i]) >= FLT_EPSILON) {
 					return false;
 				}
 			}

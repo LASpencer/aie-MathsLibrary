@@ -498,6 +498,17 @@ bool runUnitTests() {
 	TEST("Vector3 cast as Vector2", v2a, Vector2(3.0f, 4.0f));
 	TEST("Vector3 cast as Vector4", v4a, Vector4(3.0f, 4.0f, 5.0f, 0.0f));
 
+	// vector complex assignments
+	v2a = { 2,4 };
+	v2b = { 6,1 };
+	v2c = { 3,2 };
+	v2a += v2b;
+	TEST("Vector2 +=", v2a, Vector2(8, 5));
+	v2a -= v2c;
+	TEST("Vector2 -=", v2a, Vector2(5, 3));
+	v2a *= 0.5f;
+	TEST("Vector2 *=", v2a, Vector2(2.5f, 1.5f));
+
 	// Matrix set identity
 	m2.setIdentity();
 	m3a.setIdentity();
@@ -598,5 +609,6 @@ bool runUnitTests() {
 	TEST("Matrix3 getEuler locked alpha", std::get<0>(eulerAngles), 0.7f);
 	TEST("Matrix3 getEuler locked beta", std::get<1>(eulerAngles), 3.14159265f);
 	TEST("Matrix3 getEuler locked gamma", std::get<2>(eulerAngles), 0.0f);
+
 	return true;
 }
