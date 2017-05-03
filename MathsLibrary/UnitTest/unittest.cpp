@@ -610,5 +610,12 @@ bool runUnitTests() {
 	TEST("Matrix3 getEuler locked beta", std::get<1>(eulerAngles), 3.14159265f);
 	TEST("Matrix3 getEuler locked gamma", std::get<2>(eulerAngles), 0.0f);
 
+	m3a = { 1,2,0,0,1,0,0,0,1 };
+	m3b = { 1,2,0,-2,1,0,0,0,INFINITY };
+	eulerAngles = m3a.getEulerOrientation();
+	TEST("Matrix3 getEuler non-orthonormal basis fails", std::get<3>(eulerAngles), b_false);
+	eulerAngles = m3b.getEulerOrientation();
+	TEST("Matrix3 getEuler normalisation fails", std::get<3>(eulerAngles), b_false);
+
 	return true;
 }
