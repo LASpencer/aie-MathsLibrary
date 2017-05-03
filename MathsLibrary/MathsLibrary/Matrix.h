@@ -73,7 +73,11 @@ namespace lasmath {
 		typename std::enable_if<ORD == 2, void>::type setRotate(float angle) {
 			float rotate[ORD][ORD] = { { cosf(angle), sinf(angle) } ,{ -sinf(angle), cosf(angle) } };
 			// Copy rotation matrix to elements
-			std::copy(&rotate[0][0], &rotate[0][0] + (ORD*ORD), &m_element[0][0]);
+			for (size_t i = 0; i < ORD; ++i) {
+				for (size_t j = 0; j < ORD; ++j) {
+					m_element[i][j] = rotate[i][j];
+				}
+			}
 		};
 
 		// Set matrix to transformation matrix rotating around X axis by angle
@@ -87,7 +91,11 @@ namespace lasmath {
 				rotate[3][3] = 1;
 			}
 			// Copy rotation matrix to elements
-			std::copy(&rotate[0][0], &rotate[0][0] + (ORD*ORD), &m_element[0][0]);
+			for (size_t i = 0; i < ORD; ++i) {
+				for (size_t j = 0; j < ORD; ++j) {
+					m_element[i][j] = rotate[i][j];
+				}
+			}
 		};
 
 		// Set matrix to transformation matrix rotating around Y axis by angle
@@ -102,7 +110,11 @@ namespace lasmath {
 				rotate[3][3] = 1;
 			}
 			// Copy rotation matrix to elements
-			std::copy(&rotate[0][0], &rotate[0][0] + (ORD*ORD), &m_element[0][0]);
+			for (size_t i = 0; i < ORD; ++i) {
+				for (size_t j = 0; j < ORD; ++j) {
+					m_element[i][j] = rotate[i][j];
+				}
+			}
 		};
 
 		// Set matrix to transformation matrix rotating around Z axis by angle
@@ -118,7 +130,11 @@ namespace lasmath {
 			}
 
 			// Copy rotation matrix to elements
-			std::copy(&rotate[0][0], &rotate[0][0] + (ORD*ORD), &m_element[0][0]);
+			for (size_t i = 0; i < ORD; ++i) {
+				for (size_t j = 0; j < ORD; ++j) {
+					m_element[i][j] = rotate[i][j];
+				}
+			}
 		};
 
 		// Set matrix to a transformation matrix rotating to orientation given by Euler angles
@@ -144,7 +160,11 @@ namespace lasmath {
 				rotate[3][3] = 1;
 			}
 			// Copy rotation matrix to elements
-			std::copy(&rotate[0][0], &rotate[0][0] + (ORD*ORD), &m_element[0][0]);
+			for (size_t i = 0; i < ORD; ++i) {
+				for (size_t j = 0; j < ORD; ++j) {
+					m_element[i][j] = rotate[i][j];
+				}
+			}
 		};
 
 		// Set matrix to a transformation matrix rotating to orientation given by Tait-Bryan angles
@@ -170,7 +190,11 @@ namespace lasmath {
 				rotate[3][3] = 1;
 			}
 			// Copy rotation matrix to elements
-			std::copy(&rotate[0][0], &rotate[0][0] + (ORD*ORD), &m_element[0][0]);
+			for (size_t i = 0; i < ORD; ++i) {
+				for (size_t j = 0; j < ORD; ++j) {
+					m_element[i][j] = rotate[i][j];
+				}
+			}
 		};
 
 		// Calculates Euler angles for orientation of matrix
